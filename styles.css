@@ -1,0 +1,58 @@
+.two-qubit-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            align-items: flex-start;
+        }
+
+        .bloch-pair {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .bloch-card {
+            text-align: center;
+        }
+
+        .two-qubit-side-panel {
+            min-width: 330px;
+            max-width: 520px;
+        }
+
+        .probability-row {
+            display: grid;
+            grid-template-columns: 100px 220px;
+            gap: 12px;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        progress {
+            width: 220px;
+            height: 22px;
+        }
+
+        .entanglement-connection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 120px;
+        }
+
+        #entanglementBeam {
+            width: 100px;
+            height: 8px;
+            border-radius: 5px;
+            background: #bb55ff;
+            box-shadow: 0 0 8px #bb55ff, 0 0 18px #bb55ff;
+            opacity: 0;
+            transform: scaleX(0);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+
+        .q-sphere-card {
+            text-align: center;
+        }
