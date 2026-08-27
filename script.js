@@ -39,7 +39,9 @@ menuContext.strokeStyle = "rgba(255,255,255,0.3)";
 menuContext.lineWidth = 1;
 menuContext.stroke();
 
-function animateMenuBackground() { // Updates and draws background
+function animateMenuBackground() {
+// Updates and draws background
+} 
 // =========================
 // COMPLEX-NUMBER SETUP
 // =========================
