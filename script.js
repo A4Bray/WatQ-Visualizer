@@ -2,7 +2,7 @@
 // PAGE NAVIGATION
 // =========================
 function showMode(mode) {
-    document.getElementById("modeMenu").style.display = "none";
+    document.getElementById("modeMenu").style.display = "grid";
     document.getElementById("singleQubitPage").style.display = "none";
     document.getElementById("twoQubitPage").style.display = "none";
 
