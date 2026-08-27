@@ -1,8 +1,8 @@
 // =========================
-// PAGE NAVIGATION
+// MODE NAVIGATION
 // =========================
 function showMode(mode) {
-    document.getElementById("modeMenu").style.display = "grid";
+    document.getElementById("modeMenu").style.display = "none";
     document.getElementById("singleQubitPage").style.display = "none";
     document.getElementById("twoQubitPage").style.display = "none";
 
@@ -16,9 +16,30 @@ function showMode(mode) {
 function showMenu() {
     document.getElementById("singleQubitPage").style.display = "none";
     document.getElementById("twoQubitPage").style.display = "none";
-    document.getElementById("modeMenu").style.display = "block";
+    document.getElementById("modeMenu").style.display = "grid";
 }
 
+// =========================
+// MENU BACKGROUND
+// =========================
+const menuCanvas =
+    document.getElementById("menuBackground");
+
+const menuContext = 
+    menuCanvas.getContext("2d");
+
+menuCanvas.width = window.innerWidth;
+menuCanvas.height = window.innerHeight;
+
+menuContext.beginPath();
+menuContext.moveTo(100,100);
+menuContext.lineTo(500,300);
+
+menuContext.strokeStyle = "rgba(255,255,255,0.3)";
+menuContext.lineWidth = 1;
+menuContext.stroke();
+
+function animateMenuBackground() { // Updates and draws background
 // =========================
 // COMPLEX-NUMBER SETUP
 // =========================
@@ -1797,4 +1818,9 @@ updateTwoQubitDisplay();
 
 // Begin rendering after all scenes and
 // visualizers have been created.
+    
+// =========================
+// ANIMATIONS
+// =========================
 animate();
+animateMenuBackground();
