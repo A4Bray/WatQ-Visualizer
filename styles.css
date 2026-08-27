@@ -78,7 +78,7 @@ html,
 		background: black;
 	}
 
-	#modeBackground {
+	#menuBackground {
 		position: absolute;
 		inset: 0;
 
@@ -98,13 +98,13 @@ html,
 		transform: translateY(12px);
 		animation: fadeInButton 0.8s ease-out forwards;
 	}
+	.mode-button: nth-of-type(2) {
+		animation-delay: 0.2s;
+	}
 	@keyframes fadeInButton {
 		to {
 			opacity: 1;
 			transform: translateY(0);
 		}
-	}
-	.mode-button: nth-of-type(2) {
-		animation-delay: 0.2s;
 	}
 
