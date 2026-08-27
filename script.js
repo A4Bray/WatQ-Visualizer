@@ -22,11 +22,26 @@ function showMenu() {
 // =========================
 // MENU BACKGROUND
 // =========================
-const menuCanvas =
-    document.getElementById("menuBackground");
+const pointA = {
+    x: 100,
+    y: 100
+};
 
-const menuContext = 
-    menuCanvas.getContext("2d");
+constpointB = {
+    x: 500,
+    y: 300
+};
+
+
+menuContext.moveTo(
+    pointA.x
+    pointA.y
+);
+
+menuContext.lineTo(
+    pointB.x
+    pointB.y
+);
 
 menuCanvas.width = window.innerWidth;
 menuCanvas.height = window.innerHeight;
