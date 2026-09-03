@@ -1,110 +1,197 @@
+/* root for colour */
+:root {
+	--background-color: #000000;
+	--widget-color: #111111;
+	--text-color: #ffffff;
+	--border-color: #3a3a3a;
+	--accent-color: #bb55ff;
+}
+
+/* single qubit layout */
+.single-qubit-layout {
+	display: flex;
+	gap:  28px;
+	align-items: flex-start;
+}
+
+.single-qubit-controls {
+	flex: 0 0 340px;
+}
+
+.single-qubit-visual {
+	flex: 1;
+	min-width: 0;
+	text-align: center;
+}
+	
+/* two qubit layout */
+	
 .two-qubit-layout {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 28px;
-            align-items: flex-start;
-        }
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-start;
+}
 
-        .bloch-pair {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            align-items: center;
-        }
+.two-qubit-sidebar {
+	display: flex;
+	flex: 0 0 360px;
+	flex-direction: column;
+	gap: 18px;
+}
 
-        .bloch-card {
-            text-align: center;
-        }
+.two-qubit-visuals {
+	flex: 1 1 700px;
+	min-width: 0;
+}
 
-        .two-qubit-side-panel {
-            min-width: 330px;
-            max-width: 520px;
-        }
+.widget {
+	padding: 18px;
+	background: var(--widget-color);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+}
 
-        .probability-row {
-            display: grid;
-            grid-template-columns: 100px 220px;
-            gap: 12px;
-            align-items: center;
-            margin: 10px 0;
-        }
+.bloch-pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+	justify-content: center;
+}
 
-        progress {
-            width: 220px;
-            height: 22px;
-        }
+.bloch-card {
+    text-align: center;
+}
 
-        .entanglement-connection {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 120px;
-        }
+.two-qubit-side-panel {
+	min-width: 0;
+}
 
-        #entanglementBeam {
-            width: 100px;
-            height: 8px;
-            border-radius: 5px;
-            background: #bb55ff;
-            box-shadow: 0 0 8px #bb55ff, 0 0 18px #bb55ff;
-            opacity: 0;
-            transform: scaleX(0);
-            transition: opacity 0.4s, transform 0.4s;
-        }
+.probability-row {
+    display: grid;
+    grid-template-columns: 100px 220px;
+    gap: 12px;
+    align-items: center;
+    margin: 10px 0;
+}
 
-        .q-sphere-card {
-            text-align: center;
-        }
+progress {
+    width: 220px;
+    height: 22px;
+}
+
+.entanglement-connection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 120px;
+}
+
+#entanglementBeam {
+    width: 100px;
+    height: 8px;
+	background: var(--accent-color);
+	border-radius: 5px;
+	box-shadow:
+		0 0 8px var(--accent-color),
+		0 0 18px var(--accent-color);
+	opacity: 0;
+	transform scaleX(0);
+	transition: opacity 0.4s, transform 0.4s;
+}
+
+.q-sphere-card {
+	margin-top: 18px;
+    text-align: center;
+}
+
+/* html ids*/
+#bloch,
+#qubit0Bloch,
+#qubit1Bloch,
+#qSphere {
+	display: flex;
+	justify-content: center;
+}
+
+#singleQubitPage canvas,
+#twoQubitPage canvas {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
 
 html, 
-	body {
-		margin: 0;
-		min-height: 100%;
-	}
+body {
+	margin: 0;
+	min-height: 100%;
+}
 
-    body {
-        color: white;
-        background: black;
-    }
+body {
+    color: var(--text-color);
+    background: var(--background-color);
+}
+	
+#modeMenu {
+	position: relative;
+	display: grid;
+	place-items: center;
 
-    #modeMenu {
-		position: relative;
-		display: grid;
-		place-items: center;
+	min-height: 100vh;
+	overflow: hidden;
+	background: var(--background-color);
+}
 
-		min-height: 100vh;
-		overflow: hidden;
-		background: black;
-	}
+#menuBackground {
+	position: absolute;
+	inset: 0;
 
-	#menuBackground {
-		position: absolute;
-		inset: 0;
+	width: 100%;
+	height: 100%;
+}
 
-		width: 100%;
-		height: 100%;
-	}
-
-	.menuContent {
-		position: relative;
-		z-index: 1;
-		text-align: center;
-	}
+.menuContent {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+}
 
 		
-	.mode-button { 
-		opacity: 0;
-		transform: translateY(12px);
-		animation: fadeInButton 0.8s ease-out forwards;
+.mode-button { 
+	opacity: 0;
+	transform: translateY(12px);
+	animation: fadeInButton 0.8s ease-out forwards;
+}
+	
+.mode-button:nth-of-type(2) {
+	animation-delay: 0.2s;
+}
+	
+@keyframes fadeInButton {
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
-	.mode-button: nth-of-type(2) {
-		animation-delay: 0.2s;
+}
+
+@media (max-width: 850px) {
+	.single-qubit-layout,
+	.two-qubit-layout {
+		flex-direction: column;
 	}
-	@keyframes fadeInButton {
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
+
+	.single-qubit-controls,
+    .single-qubit-visual,
+    .two-qubit-sidebar,
+    .two-qubit-visuals {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    .probability-row {
+        grid-template-columns: 100px minmax(120px, 220px);
+    }
+}
 
