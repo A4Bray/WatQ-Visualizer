@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device=width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Qubit Bloch Visualizer</title>
 
@@ -18,7 +18,7 @@
 <div id="modeMenu">
     <canvas id="menuBackground"></canvas>
 
-    <div class=m"menuContent">
+    <div class="menuContent">
         <h1>Quantum Interaction Visualizer</h1>
         <p>Choose System to Explore</p>
 
@@ -36,145 +36,148 @@
     </div>        
 </div>
 
-<!-- Single-qubit display -->
+<!-- SINGLE-QUBIT DISPLAY -->
 <div id="singleQubitPage" style="display: none;">
-<button onclick="showMenu()">← Back to Menu</button>
+    <button onclick="showMenu()">← Back to Menu</button>
 
-<h1>Single-Qubit Bloch Sphere Visualizer</h1>
+    <h1>Single-Qubit Bloch Sphere Visualizer</h1>
 
-<label>Theta (θ):</label>
-<input type="range" id="theta" min="0" max="3.14" step="0.02" value="1.57">
-<span id="thetaVal">1.57</span>
-<span>/ π</span>
-<br><br>
+    <div class="single-qubit-layout">
+        <div class="single-qubit-controls widget">
+            <h3>State Controls</h3>
+            
+            <label>Theta (θ):</label>
+            <input type="range" id="theta" min="0" max="3.14" step="0.02" value="1.57">
+            <span id="thetaVal">1.57</span>
+            <span>/ π</span>
+            <br><br>
 
-<label>Phi (φ):</label>
-<input type="range" id="phi" min="0" max="6.28" step="0.02" value="0">
-<span id="phiVal">0</span>
-<span>/ 2π</span>
-<br><br>
+            <label>Phi (φ):</label>
+            <input type="range" id="phi" min="0" max="6.28" step="0.02" value="0">
+            <span id="phiVal">0</span>
+            <span>/ 2π</span>
 
-<h3>Probabilities:</h3>
-<p id="prob0">P(0):</p>
-<p id="prob1">P(1):</p>
+            <h3>Probabilities</h3>
+            <p id="prob0">P(0):</p>
+            <p id="prob1">P(1):</p>
 
-<h3>Current State</h3>
-<p id="stateDisplay">|ψ⟩ =</p>
+            <h3>Current State</h3>
+            <p id="stateDisplay">|ψ⟩ =</p>
 
-<br><br>
+            <h3>Quantum Gates</h3>
+            <button onclick="applyGate('X')">X</button>
+            <button onclick="applyGate('Y')">Y</button>
+            <button onclick="applyGate('Z')">Z</button>
+            <button onclick="applyGate('H')">H</button>
 
-<button onclick="resetView()">Reset View</button>
+            <h3>Measurement</h3>
+            <button onclick="measureQubit()">Measure</button>
+            <button onclick="prepareZero()">Prepare |0⟩</button>
+            <p id="measurementResult">Result: not measured</p>
+        </div>
 
-<br><br>
-
-<div id="bloch"></div>
-
-<br><br>
-
-<h3>Quantum Gates</h3>
-<button onclick="applyGate('X')">X</button>
-<button onclick="applyGate('Y')">Y</button>
-<button onclick="applyGate('Z')">Z</button>
-<button onclick="applyGate('H')">H</button>
-
-<h3>Measurement</h3>
-<button onclick="measureQubit()">Measure</button>
-<button onclick="prepareZero()">Prepare |0⟩</button>
-<p id="measurementResult">Result: not measured</p>
-
+        <div class="single-qubit-visual widget">
+            <button onclick="resetView()">Reset View</button>
+            <div id="bloch"></div>
+        </div>
+    </div>
 </div>
 
-<!-- ========================= -->
-<!-- TWO-QUBIT DISPLAY         -->
-<!-- ========================= -->
+<!-- TWO-QUBIT DISPLAY -->
 <div id="twoQubitPage" style="display: none;">
     <button onclick="showMenu()">← Back to Menu</button>
 
     <h1>Two-Qubit Visualizer</h1>
 
-    <h3>Single-Qubit Gates</h3>
-    <button onclick="applyTwoQubitGate('H0')">H on Qubit 0</button>
-    <button onclick="applyTwoQubitGate('H1')">H on Qubit 1</button>
-    <button onclick="applyTwoQubitGate('X0')">X on Qubit 0</button>
-    <button onclick="applyTwoQubitGate('X1')">X on Qubit 1</button>
-
-    <h3>Two-Qubit Gate</h3>
-    <button onclick="applyTwoQubitGate('CNOT')">CNOT (Q0 controls Q1)</button>
-
-    <h3>Entanglement</h3>
-    <button onclick="createBellState()">Create Bell State |Φ+⟩</button>
-
-    <h3>State Preparation and Measurement</h3>
-    <button onclick="prepareTwoQubitZero()">Prepare |00⟩</button>
-    <button onclick="measureTwoQubits()">Measure Both Qubits</button>
-    <p id="twoQubitMeasurementResult">Result: not measured</p>
-
     <div class="two-qubit-layout">
-        <div class="bloch-pair">
-            <div class="bloch-card">
-                <h3>Qubit 0</h3>
-                <div id="qubit0Bloch"></div>
-                <p id="qubit0BlochStatus">Bloch-vector length: 1.000 — pure</p>
+        <div class="two-qubit-sidebar">
+            <div class="two-qubit-controls widget">
+    
+                <h3>Single-Qubit Gates</h3>
+                <button onclick="applyTwoQubitGate('H0')">H on Qubit 0</button>
+                <button onclick="applyTwoQubitGate('H1')">H on Qubit 1</button>
+                <button onclick="applyTwoQubitGate('X0')">X on Qubit 0</button>
+                <button onclick="applyTwoQubitGate('X1')">X on Qubit 1</button>
+
+                <h3>Two-Qubit Gate</h3>
+                <button onclick="applyTwoQubitGate('CNOT')">CNOT (Q0 controls Q1)</button>
+
+                <h3>Entanglement</h3>
+                <button onclick="createBellState()">Create Bell State |Φ+⟩</button>
+
+                <h3>State Preparation and Measurement</h3>
+                <button onclick="prepareTwoQubitZero()">Prepare |00⟩</button>
+                <button onclick="measureTwoQubits()">Measure Both Qubits</button>
+                <p id="twoQubitMeasurementResult">Result: not measured</p>
             </div>
 
-            <div class="entanglement-connection">
-                <div id="entanglementBeam"></div>
-                <p id="entanglementBeamLabel">Not entangled</p>
-            </div>
+            <div class="two-qubit-side-panel widget">
+                <h3>Current State</h3>
+                <p id="twoQubitStateDisplay">|ψ⟩ = |00</p>
 
-            <div class="bloch-card">
-                <h3>Qubit 1</h3>
-                <div id="qubit1Bloch"></div>
-                <p id="qubit1BlochStatus">Bloch-vector length: 1.000 — pure</p>
+                <h3>Joint Probability Visualization</h3>
+
+                <div class="probability-row">
+                    <span id="prob00">P(00): 1.000</span>
+                    <progress id="bar00" max="1" value="1"></progress>
+                </div>
+
+                <div class="probability-row">
+                    <span id="prob01">P(01): 0.000</span>
+                    <progress id="bar01" max="1" value="0"></progress>
+                </div>
+
+                <div class="probability-row">
+                    <span id="prob10">P(10): 0.000</span>
+                    <progress id="bar10" max="1" value="0"></progress>
+                </div>
+
+                <div class="probability-row">
+                    <span id="prob11">P(11): 0.000</span>
+                    <progress id="bar11" max="1" value="0"></progress>
+                </div>
+
+                <h3>Correlation</h3>
+                <p id="correlationDisplay">
+                    Same result: 1.000 | Different result: 0.000
+                </p>
+
+                <h3>Entanglement Strength</h3>
+                <p id="entanglementDisplay">Concurrence: 0.000 — separable</p>
+                <progress id="entanglementBar" max="1" value="0"></progress>
             </div>
         </div>
 
-        <div class="q-sphere-card">
-            <h3>Global Two-Qubit Q-Sphere</h3>
-            <div id="qSphere"></div>
-            <p>Dot size = probability | Dot colour = relative phase</p>
-        </div>
+        <div class="two-qubit-visuals">
+            <div class="bloch-pair widget">
+                <div class="bloch-card">
+                    <h3>Qubit 0</h3>
+                    <div id="qubit0Bloch"></div>
+                    <p id="qubit0BlochStatus">Bloch-vector Length: 1.000 — pure</p>
+                </div>
 
-        <div class="two-qubit-side-panel">
-            <h3>Current State</h3>
-            <p id="twoQubitStateDisplay">|ψ⟩ = |00⟩</p>
+                <div class="entanglement-connection">
+                    <div id="entanglementBeam"></div>
+                    <p id="entanglementBeamLabel">Not Entangled</p>
+                </div>
 
-            <h3>Joint Probability Visualization</h3>
-
-            <div class="probability-row">
-                <span id="prob00">P(00): 1.000</span>
-                <progress id="bar00" max="1" value="1"></progress>
+                <div class="bloch-card">
+                    <h3>Qubit 1</h3>
+                    <div id="qubit1Bloch"></div>
+                    <p id="qubit1BlochStatus">Bloch-vector length 1.000 — pure</p>
+                </div>
             </div>
 
-            <div class="probability-row">
-                <span id="prob01">P(01): 0.000</span>
-                <progress id="bar01" max="1" value="0"></progress>
+            <div class="q-sphere-card widget">
+                <h3>Global Two-Qubit Q-Sphere</h3>
+                <div id="qSphere"></div>
+                <p>Dot size = probability | Dot colour = relative phase</p>
             </div>
-
-            <div class="probability-row">
-                <span id="prob10">P(10): 0.000</span>
-                <progress id="bar10" max="1" value="0"></progress>
-            </div>
-
-            <div class="probability-row">
-                <span id="prob11">P(11): 0.000</span>
-                <progress id="bar11" max="1" value="0"></progress>
-            </div>
-
-            <h3>Correlation</h3>
-            <p id="correlationDisplay">
-                Same result: 1.000 | Different result: 0.000
-            </p>
-
-            <h3>Entanglement Strength</h3>
-            <p id="entanglementDisplay">Concurrence: 0.000 — separable</p>
-            <progress id="entanglementBar" max="1" value="0"></progress>
         </div>
     </div>
 </div>
-
+    
 <script src="script.js"></script>
-
 
 </body>
 </html>
