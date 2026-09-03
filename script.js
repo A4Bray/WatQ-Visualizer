@@ -24,14 +24,14 @@ function showMenu() {
 // =========================
 const menuCanvas = document.getElementById("menuBackground");
 
-const menuContext = menuCanvas.getContext("2d);
+const menuContext = menuCanvas.getContext("2d");
 
 const menuPointCount = 26;
 const menuConnectionDistance = 180;
-const menuPoints[];
+const menuPoints = [];
 
-let menuWidth = window.innerWidth;
-let menuHeight = window.innerHeight;
+let menuWidth;
+let menuHeight;
 
 // Use accent colour defined in .css
 const menuAccentColor = getComputedStyle(document.documentElement)
@@ -51,7 +51,7 @@ function createMenuPoints() {
             y: Math.random() * menuHeight,
 
             velocityX: (Math.random() - 0.5) * 0.35,
-            VelocityY: (Math.random() - 0.5) * 0.35
+            velocityY: (Math.random() - 0.5) * 0.35
         });
     }
 }
@@ -67,7 +67,7 @@ function resizeMenuBackground() {
     menuCanvas.height = menuHeight * pixelRatio;
 
     menuContext.setTransform(
-            pixelRatio, 0, 0, 0,
+            pixelRatio, 0, 0,
             pixelRatio, 0, 0
     );
 
@@ -111,7 +111,7 @@ function animateMenuBackground() {
     // Connect points if distance is less than
     for (
         let first = 0;
-        first < menuPoints.length; //Pausing here.
+        first < menuPoints.length; 
         first ++
     ) {
         for (
@@ -129,12 +129,12 @@ function animateMenuBackground() {
                 menuContext.beginPath();
 
                 menuContext.moveTo(
-                    menuPoints[first].x
+                    menuPoints[first].x,
                     menuPoints[first].y
                 );
 
                 menuContext.lineTo(
-                    menuPoints[second].x
+                    menuPoints[second].x,
                     menuPoints[second].y
                 );
 
