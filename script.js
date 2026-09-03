@@ -22,41 +22,97 @@ function showMenu() {
 // =========================
 // MENU BACKGROUND
 // =========================
-const pointA = {
-    x: 100,
-    y: 100
-};
+const menuCanvas = document.getElementById("menuBackground");
 
-constpointB = {
-    x: 500,
-    y: 300
-};
+const menuContext = menuCanvas.getContext("2d);
 
+const menuPointCount = 26;
+const menuConnectionDistance = 180;
+const menuPoints[];
 
-menuContext.moveTo(
-    pointA.x
-    pointA.y
-);
+let menuWidth = window.innerWidth;
+let menuHeight = window.innerHeight;
 
-menuContext.lineTo(
-    pointB.x
-    pointB.y
-);
+// Use accent colour defined in .css
+const menuAccentColor = getComputedStyle(document.documentElement)
+                .getPropertyValue("--accent-color")
+                .trim() || "#bb55ff";
 
-menuCanvas.width = window.innerWidth;
-menuCanvas.height = window.innerHeight;
+function createMenuPoints() {
+    menuPoints.length = 0;
 
-menuContext.beginPath();
-menuContext.moveTo(100,100);
-menuContext.lineTo(500,300);
+    for (
+        let index = 0;
+        index < menuPointCount;
+        index++
+) {
+        menuPoints.push({
+            x: Math.random() * menuWidth,
+            y: Math.random() * menuHeight,
 
-menuContext.strokeStyle = "rgba(255,255,255,0.3)";
-menuContext.lineWidth = 1;
-menuContext.stroke();
+            velocityX: (Math.random() - 0.5) * 0.35,
+            VelocityY: (Math.random() - 0.5) * 0.35
+        });
+    }
+}
+                    
+function resizeMenuBackground() {
+    menuWidth = window.innerWidth;
+    menuHeight = window.innerHeight;
+
+    //limit pixel density
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+    menuCanvas.width = menuWidth * pixelRatio;
+    menuCanvas.height = menuHeight * pixelRatio;
+
+    menuContext.setTransform(
+            pixelRatio, 0, 0, 0,
+            pixelRatio, 0, 0
+    );
+
+    createMenuPoints();
+}
 
 function animateMenuBackground() {
-// Updates and draws background
-} 
+    requestAnimationFrame(
+        animateMenuBackground
+        );
+
+    //Do not draw while visualizer covers menu
+    if (
+        document.getElementById("modeMenu").style.display === "none"
+    ) {
+        return;
+    }
+
+    menuContext.clearRect(0, 0, menuWidth, menuHeight);
+    
+    //Have velocity for each point
+    for (let point of menuPoints) {
+        point.x += point.velocityX;
+        point.y += point.velocityY;
+
+        // Reverse horizontal direction upon edge
+        if (
+            point.x <= 0 || point.x >= menuWidth
+        ) {
+            point.velocityX *= -1;
+        }
+
+        // Reverse vertical direction upon edge
+        if (
+            point.y <= 0 || point.y >= menuHeight
+            ) {
+            point.velocityY *= -1;
+        }
+    }
+
+    // Connect points if distance is less than
+    for (
+        let first = 0;
+        first < menuPoints.length; //Pausing here.
+            
 // =========================
 // COMPLEX-NUMBER SETUP
 // =========================
