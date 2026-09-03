@@ -112,7 +112,67 @@ function animateMenuBackground() {
     for (
         let first = 0;
         first < menuPoints.length; //Pausing here.
-            
+        first ++
+    ) {
+        for (
+            let second = first + 1;
+            second < menuPoints.length;
+            second++
+        ) {
+            const deltaX = menuPoints[first].x - menuPoints[second].x;
+            const deltaY = menuPoints[first].y - menuPoints[second].y;
+            const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+
+            if (
+                distance < menuConnectionDistance
+            ) {
+                menuContext.beginPath();
+
+                menuContext.moveTo(
+                    menuPoints[first].x
+                    menuPoints[first].y
+                );
+
+                menuContext.lineTo(
+                    menuPoints[second].x
+                    menuPoints[second].y
+                );
+
+                menuContext.strokeStyle = menuAccentColor;
+
+                //Closer points produce brighter connecting lines.
+                menuContext.globalAlpha = 0.22 * ( 1- distance/menuConnectionDistance);
+                menuContext.lineWidth = 1;
+                menuContext.stroke();
+            }
+        }
+    }
+
+    //Draw individual points
+    menuContext.globalAlpha = 0.5;
+
+    menuContext.fillStyle = menuAccentColor;
+    for (let point of menuPoints) {
+        menuContext.beginPath();
+
+        menuContext.arc(
+            point.x, point.y,
+            1.5, 0, 2 * Math.PI
+        );
+
+        menuContext.fill()
+    }   
+    //restore full opacity for animation
+    menuContext.globalAlpha = 1;
+}
+
+resizeMenuBackground();
+
+window.addEventListener(
+    "resize",
+    resizeMenuBackground
+);
+
 // =========================
 // COMPLEX-NUMBER SETUP
 // =========================
