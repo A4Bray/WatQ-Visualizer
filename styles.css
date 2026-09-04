@@ -10,18 +10,47 @@
 /* single qubit layout */
 .single-qubit-layout {
 	display: flex;
-	gap:  28px;
+	gap:  32px;
 	align-items: flex-start;
 }
 
 .single-qubit-controls {
-	flex: 0 0 340px;
+	flex: 0 0 420px;
+	padding: 28px;
 }
 
 .single-qubit-visual {
 	flex: 1;
 	min-width: 0;
+	min-height: 780px;
+	padding: 28px;
 	text-align: center;
+}
+
+.single-qubit-controls h3 {
+    margin-top: 28px;
+}
+
+.single-qubit-controls h3:first-child {
+    margin-top: 0;
+}
+
+.single-qubit-controls input[type="range"] {
+    width: 240px;
+    height: 26px;
+    vertical-align: middle;
+}
+
+.single-qubit-controls button {
+    min-width: 52px;
+    min-height: 42px;
+    margin: 4px 2px;
+    padding: 10px 16px;
+}
+
+.single-qubit-controls button[onclick="measureQubit()"],
+.single-qubit-controls button[onclick="prepareZero()"] {
+    min-width: 125px;
 }
 	
 /* two qubit layout */
