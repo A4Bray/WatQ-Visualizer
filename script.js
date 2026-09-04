@@ -273,7 +273,7 @@ let t = 0;
 let scene = new THREE.Scene();
 
 let camera = new THREE.PerspectiveCamera(
-    75,
+    55,
     1,
     0.1,
     1000
@@ -285,7 +285,11 @@ let renderer = new THREE.WebGLRenderer({
     antialias: true
 });
 
-renderer.setSize(500, 500);
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio || 1, 2)
+);
+
+renderer.setSize(720, 720);
 renderer.setClearColor(0x111111);
 
 document
