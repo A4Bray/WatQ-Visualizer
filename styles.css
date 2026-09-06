@@ -7,6 +7,22 @@
 	--accent-color: #bb55ff;
 }
 
+/*Title and Header font */
+h1,
+h2,
+h3 {
+	font-family: "Inter", Arial, Sans-serif;
+}
+
+h1 {
+	font-weight: 700;
+}
+
+h2,
+h3 {
+	font-weight: 600;
+}
+
 /* single qubit layout */
 .single-qubit-layout {
 	display: flex;
