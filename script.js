@@ -146,7 +146,7 @@ function animateMenuBackground() {
 
     menuContext.fillStyle = menuAccentColor;
     menuContext.shadowColor = menuAccentColor;
-    menuContex.shadowBlur = 5;
+    menuContext.shadowBlur = 5;
     
     for (let point of menuPoints) {
         menuContext.beginPath();
@@ -156,7 +156,7 @@ function animateMenuBackground() {
             1.5, 0, 2 * Math.PI
         );
 
-        menuContext.fill()
+        menuContext.fill();
     }   
     //restore full opacity for animation
     menuContext.globalAlpha = 1;
