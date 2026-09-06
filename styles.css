@@ -7,20 +7,24 @@
 	--accent-color: #bb55ff;
 }
 
-/*Title and Header font */
+/* title and header font */
 h1,
 h2,
 h3 {
-	font-family: "Inter", Arial, Sans-serif;
-}
-
-h1 {
+	font-family: "Source Serif 4", "Times New Roman", serif;
 	font-weight: 700;
 }
 
-h2,
-h3 {
-	font-weight: 600;
+#modeMenu h1 {
+    font-size: 48px;
+    letter-spacing: -0.5px;
+}
+
+/* general interface text */
+body,
+button,
+input {
+	font-family: "Inter", Arial, sans-serif;
 }
 
 /* single qubit layout */
