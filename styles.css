@@ -12,7 +12,7 @@ h1,
 h2,
 h3 {
 	font-family: "Source Serif 4", "Times New Roman", serif;
-	font-weight: 700;
+	font-weight: 600;
 }
 
 #modeMenu h1 {
@@ -22,11 +22,33 @@ h3 {
 
 /* general interface text */
 body,
-button,
-input {
+button {
 	font-family: "Inter", Arial, sans-serif;
+	font-weight: 500;
 }
 
+/* Calculated single-qubit results */
+.single-qubit-controls span,
+#prob0,
+#prob1,
+#stateDisplay,
+#measurementResult {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 400;
+}
+
+/* Calculated two-qubit results */
+.probability-row span,
+#twoQubitStateDisplay,
+#twoQubitMeasurementResult,
+#correlationDisplay,
+#entanglementDisplay,
+#qubit0BlochStatus,
+#qubit1BlochStatus,
+#entanglementBeamLabel {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 400;
+}
 /* single qubit layout */
 .single-qubit-layout {
 	display: flex;
