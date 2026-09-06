@@ -79,13 +79,6 @@ function animateMenuBackground() {
         animateMenuBackground
         );
 
-    //Do not draw while visualizer covers menu
-    if (
-        document.getElementById("modeMenu").style.display === "none"
-    ) {
-        return;
-    }
-
     menuContext.clearRect(0, 0, menuWidth, menuHeight);
     
     //Have velocity for each point
