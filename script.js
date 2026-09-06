@@ -26,7 +26,7 @@ const menuCanvas = document.getElementById("menuBackground");
 
 const menuContext = menuCanvas.getContext("2d");
 
-const menuPointCount = 26;
+const menuPointCount = 32;
 const menuConnectionDistance = 180;
 const menuPoints = [];
 
@@ -142,9 +142,12 @@ function animateMenuBackground() {
     }
 
     //Draw individual points
-    menuContext.globalAlpha = 0.5;
+    menuContext.globalAlpha = 0.8;
 
     menuContext.fillStyle = menuAccentColor;
+    menuContext.shadowColor = menuAccentColor;
+    menuContex.shadowBlur = 5;
+    
     for (let point of menuPoints) {
         menuContext.beginPath();
 
@@ -157,6 +160,7 @@ function animateMenuBackground() {
     }   
     //restore full opacity for animation
     menuContext.globalAlpha = 1;
+    menuContext.shadowBlur = 0;
 }
 
 resizeMenuBackground();
