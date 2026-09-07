@@ -5,6 +5,7 @@
 	--text-color: #ffffff;
 	--border-color: #3a3a3a;
 	--accent-color: #bb55ff;
+	--slider-color: #168cff;
 }
 
 * {
@@ -129,8 +130,8 @@ button:active {
 	margin-top: -6px;
 	border: none;
 	border-radius: 50%;
-	background: var(--accent-color);
-	box-shadow: 0 0 8px rgba(187, 85, 255, 0.65);
+	background: var(--slider-color);
+	box-shadow: 0 0 8px rgba(22, 140, 255, 0.65);
 	transition:
 		transform 0.15s ease,
 		box-shadow 0.15s ease;
@@ -142,7 +143,7 @@ button:active {
 	border: none;
 	border-radius: 50%;
 	background: var(--accent-color);
-	box-shadow: 0 0 8px rgba(187, 85, 255, 0.65);
+	box-shadow: 0 0 13px rgba(--slider-color);
 	transition:
 		transform 0.15s ease,
 		box-shadow 0.15s ease;
