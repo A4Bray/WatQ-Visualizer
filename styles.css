@@ -30,6 +30,21 @@ button {
 	font-weight: 500;
 }
 
+/* buttons */
+button {
+	cursor: pointer;
+	transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover {
+	border-color: var(--accent-color);
+	transform: translateY(-1px);
+}
+
+button:active {
+	transform: translateY(0);
+}
+
 /* Calculated single-qubit results */
 .single-qubit-controls span,
 #prob0,
