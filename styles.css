@@ -67,6 +67,7 @@ button {
 	min-height: 780px;
 	padding: 28px;
 	text-align: center;
+	position: relative;
 
 	animation-delay: 0.15s;
 }
@@ -95,10 +96,6 @@ button {
 .single-qubit-controls button[onclick="measureQubit()"],
 .single-qubit-controls button[onclick="prepareZero()"] {
     min-width: 125px;
-
-.single-qubit-visual {
-	position: relative;
-}
 
 .reset-view-button {
 	position: absolute;
