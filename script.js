@@ -687,7 +687,7 @@ function updateBloch(
             Math.sin(theta / 2),
             2
         );
-
+    
     document.getElementById(
         "prob0"
     ).innerText =
@@ -700,6 +700,14 @@ function updateBloch(
         "P(1): " +
         p1.toFixed(3);
 
+    document.getElementById(
+        "singleBar0"
+    ).value = p0;
+
+    document.getElementById(
+        "singleBar1"
+    ).value = p1;
+    
     updateStateDisplay();
 }
 
