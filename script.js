@@ -509,7 +509,7 @@ function animateSliders(
 ) {
     if (sliderAnimationFrame !== null) {
         cancelAnimationFrame(
-            SliderAnimationFrame
+            sliderAnimationFrame
         );
     }
 
@@ -530,22 +530,22 @@ function animateSliders(
         let easedProgress = 
             progress < 0.5 
                 ? 2 * progress ** 2
-                : 1 - math.pow(-2 * progress + 2, 2) / 2;
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
         let displayedTheta = 
-            startingTheta + (targetTheta - startingTheta) * easeProgress;
+            startingTheta + (targetTheta - startingTheta) * easedProgress;
         let displayedPhi =
-            startingPhi + (targetPhi - startingPhi) * easeProgess;
+            startingPhi + (targetPhi - startingPhi) * easedProgess;
 
         thetaSlider.value = displayedTheta;
         phiSlider.value = displayedPhi;
 
-        document.getElementById("thetaVal").innertext = displayedTheta.toFixed(2);
-        document.getElementById("phiVal").innertext = displayedPhi.toFixed(2);
+        document.getElementById("thetaVal").innerText = displayedTheta.toFixed(2);
+        document.getElementById("phiVal").innerText = displayedPhi.toFixed(2);
 
         if (progress < 1) {
             sliderAnimationFrame = 
-                requestAnimationFrame(moveSliders);
+                requestAnimationFrame(moveSliders
             );
         } else {
             sliderAnimationFrame = null;
