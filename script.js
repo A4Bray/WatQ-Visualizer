@@ -276,12 +276,14 @@ let camera = new THREE.PerspectiveCamera(
     1000
 );
 
-camera.position.z = 3;
+camera.position.z = 2.4;
 
 let renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
+    alpha: true
 });
 
+renderer.setClearColor(0x000000, 0);
 renderer.setPixelRatio(
     Math.min(window.devicePixelRatio || 1, 2)
 );
@@ -335,7 +337,7 @@ let ambientLight = new THREE.AmbientLight(
 scene.add(ambientLight);
 
 // Coordinate axes
-scene.add(new THREE.AxesHelper(2));
+scene.add(new THREE.AxesHelper(1.15));
 
 // =========================
 // STATE-VECTOR ARROW
