@@ -142,7 +142,7 @@ function animateMenuBackground() {
     }
 
     //Draw individual points
-    menuContext.globalAlpha = 0.8;
+    menuContext.globalAlpha = 0.7;
 
     menuContext.fillStyle = menuAccentColor;
     menuContext.shadowColor = menuAccentColor;
