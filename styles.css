@@ -99,11 +99,68 @@ button:active {
 }
 
 .single-qubit-controls input[type="range"] {
-    width: 240px;
+    appearance: none;
+	-webkit-appearance: none;
+	width: 240px;
     height: 26px;
+	background: transparent;
+	cursor: pointer;
     vertical-align: middle;
 }
 
+	/* single qubit sliders */
+.single-qubit-controls input[type="range"]::-webkit-slider-runnable-track {
+	height: 7px;
+	background: #dddddd;
+	border-radius: 10px;
+}
+
+.single-qubit-controls input[type="range"]::-moz-range-track {
+	height: 7px;
+	background: #dddddd;
+	border-radius: 10px;
+}
+
+	/* Slider handle */
+.single-qubit-controls input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 19px;
+	height: 19px;
+	margin-top: -6px;
+	border: none;
+	border-radius: 50%;
+	background: var(--accent-color);
+	box-shadow: 0 0 8px rgba(187, 85, 255, 0.65);
+	transition:
+		transform 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+.single-qubit-controls input[type="range"]::-moz-range-thumb {
+	width: 19px;
+	height: 19px;
+	border: none;
+	border-radius: 50%;
+	background: var(--accent-color);
+	box-shadow: 0 0 8px rgba(187, 85, 255, 0.65);
+	transition:
+		transform 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+	/* Slider interaction */
+.single-qubit-controls input[type="range"]:hover::-webkit-slider-thumb,
+.single-qubit-controls input[type="range"]:active::-webkit-slider-thumb {
+	transform: scale(1.15);
+	box-shadow: 0 0 13px var(--accent-color);
+}
+
+.single-qubit-controls input[type="range"]:hover::-moz-range-thumb,
+.single-qubit-controls input[type="range"]:active::-moz-range-thumb {
+	transform: scale(1.15);
+	box-shadow: 0 0 13px var(--accent-color);
+}
+	/* single-qubit buttons */
 .single-qubit-controls button {
     min-width: 52px;
     min-height: 42px;
