@@ -535,7 +535,7 @@ function animateSliders(
         let displayedTheta = 
             startingTheta + (targetTheta - startingTheta) * easedProgress;
         let displayedPhi =
-            startingPhi + (targetPhi - startingPhi) * easedProgess;
+            startingPhi + (targetPhi - startingPhi) * easedProgress;
 
         thetaSlider.value = displayedTheta;
         phiSlider.value = displayedPhi;
