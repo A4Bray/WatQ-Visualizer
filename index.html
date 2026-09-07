@@ -54,18 +54,26 @@
             <label>Theta (θ):</label>
             <input type="range" id="theta" min="0" max="3.14" step="0.02" value="1.57">
             <span id="thetaVal">1.57</span>
-            <span>/ π</span>
+            <span class="angle-unit">rad</span>
             <br><br>
 
             <label>Phi (φ):</label>
             <input type="range" id="phi" min="0" max="6.28" step="0.02" value="0">
             <span id="phiVal">0</span>
-            <span>/ 2π</span>
+            <span class="angle-unit">rad</span>
 
             <h3>Probabilities</h3>
-            <p id="prob0">P(0):</p>
-            <p id="prob1">P(1):</p>
 
+            <div class="single-probability-row">
+                <span class="prob0">P(0): 0.500</span>
+                <progress id="singleBar0" max="1" value="0.5"></progress>
+            </div>
+            
+            <div class = "single-probability-row">
+                <span class="prob0">P(1): 0.500</span>
+                <progress id="singleBar0" max="1" value="0.5"></progress>
+            </div>
+            
             <h3>Current State</h3>
             <p id="stateDisplay">|ψ⟩ =</p>
 
@@ -82,7 +90,8 @@
         </div>
 
         <div class="single-qubit-visual widget">
-            <button onclick="resetView()">Reset View</button>
+            <button class="reset-view-button" onclick="resetView()">Reset View</button>
+            
             <div id="bloch"></div>
         </div>
     </div>
