@@ -302,8 +302,19 @@ let controls = new THREE.OrbitControls(
     renderer.domElement
 );
 
+controls.enablePan = false;
+
+controls.minDistance = 2.4;
+controls.maxDistance = 4.5;
+
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+
+controls.rotateSpeed = 0.65;
+controls.zoomSpeed = 0.8;
+
 function resetView() {
-    camera.position.set(0, 0, 3);
+    camera.position.set(0, 0, 3.2);
     controls.target.set(0, 0, 0);
     controls.update();
 }
@@ -313,10 +324,14 @@ function resetView() {
 // =========================
 let sphere = new THREE.Mesh(
     new THREE.SphereGeometry(1, 64, 64),
-    new THREE.MeshPhongMaterial({
-        color: 0x3399ff,
+    new THREE.MeshPhysicalMaterial({
+        color: 0x358ac4,
         transparent: true,
-        opacity: 0.25
+        opacity: 0.22,
+        roughness: 0.3,
+        metalness: 0.05,
+        clearcoat: 0.5,
+        clearcoatRoughness: 0.25
     })
 );
 
@@ -336,8 +351,11 @@ let ambientLight = new THREE.AmbientLight(
 scene.add(ambientLight);
 
 // Coordinate axes
-scene.add(new THREE.AxesHelper(1.15));
+let axes = new THREE.AxesHelper(1.15);
 
+axes.material.transparent = true;
+axes.material.opacity = 0.55;
+scene.add(axes);
 // =========================
 // STATE-VECTOR ARROW
 // =========================
@@ -532,7 +550,9 @@ let ring = new THREE.Mesh(
         64
     ),
     new THREE.MeshBasicMaterial({
-        color: 0xff00ff,
+        color: 0xbb55ff,
+        transparent: true,
+        opacity: 0.25,
         side: THREE.DoubleSide
     })
 );
@@ -826,6 +846,8 @@ function animate() {
         }
     }
 
+    controls.update();
+    
     renderer.render(
         scene,
         camera
@@ -957,7 +979,9 @@ function createReducedBlochVisualizer(
                 20
             ),
             new THREE.MeshBasicMaterial({
-                color: 0xffffff
+                color: 0xd6a8ff,
+                transparent: true,
+                opacity: 0.55
             })
         );
 
