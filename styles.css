@@ -95,7 +95,29 @@ button {
 .single-qubit-controls button[onclick="measureQubit()"],
 .single-qubit-controls button[onclick="prepareZero()"] {
     min-width: 125px;
+
+.single-qubit-visual {
+	position: relative;
 }
+
+.reset-view-button {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	z-index: 2;
+}
+	
+single-probability-row {
+	display: grid;
+	grid-template-columns: 110px 1fr;
+	gap: 12px;
+	align-items: center;
+	margin: 12px 0;
+}
+
+.single-probability-row progress {
+	width: 100%;
+	height: 16px;
 	
 /* two qubit layout */
 	
