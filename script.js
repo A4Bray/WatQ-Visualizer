@@ -328,10 +328,10 @@ let sphere = new THREE.Mesh(
         color: 0x358ac4,
         transparent: true,
         opacity: 0.22,
-        roughness: 0.3,
+        roughness: 0.65,
         metalness: 0.05,
-        clearcoat: 0.5,
-        clearcoatRoughness: 0.25
+        clearcoat: 0.15,
+        clearcoatRoughness: 0.45
     })
 );
 
