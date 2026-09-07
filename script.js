@@ -498,7 +498,63 @@ function prepareZero() {
 
     updateFromState();
 }
+// =========================
+// SLIDER TRANSITION
+// =========================
+let sliderAnimationFrame = null;
 
+function animateSliders(
+    targetTheta,
+    targetPhi
+) {
+    if (sliderAnimationFrame !== null) {
+        cancelAnimationFrame(
+            SliderAnimationFrame
+        );
+    }
+
+    let startingTheta = parseFloat(thetaSlider.value);
+    let startingPhi = parseFloat(phiSlider.value);
+
+    let startingTime = performance.now();
+    let duration = 350;
+
+    function moveSliders(currentTime) {
+        let progress = Math.min(
+                (currentTime - startingTime) / duration, 
+            1
+        );
+
+        // Smooth acceleration and deceleration
+
+        let easedProgress = 
+            progress < 0.5 
+                ? 2 * progress ** 2
+                : 1 - math.pow(-2 * progress + 2, 2) / 2;
+
+        let displayedTheta = 
+            startingTheta + (targetTheta - startingTheta) * easeProgress;
+        let displayedPhi =
+            startingPhi + (targetPhi - startingPhi) * easeProgess;
+
+        thetaSlider.value = displayedTheta;
+        phiSlider.value = displayedPhi;
+
+        document.getElementById("thetaVal").innertext = displayedTheta.toFixed(2);
+        document.getElementById("phiVal").innertext = displayedPhi.toFixed(2);
+
+        if (progress < 1) {
+            sliderAnimationFrame = 
+                requestAnimationFrame(moveSliders);
+            );
+        } else {
+            sliderAnimationFrame = null;
+        }
+    }
+
+    sliderAnimationFrame = requestAnimationFrame(moveSliders);
+}
+    
 // =========================
 // STATE TO BLOCH ANGLES
 // =========================
@@ -527,15 +583,8 @@ function updateFromState() {
 
     thetaSlider.value = theta;
     phiSlider.value = phi;
-
-    document.getElementById(
-        "thetaVal"
-    ).innerText = theta.toFixed(2);
-
-    document.getElementById(
-        "phiVal"
-    ).innerText = phi.toFixed(2);
-
+    
+    animateSliders(theta, phi);
     updateStateDisplay();
     updateBloch(theta, phi, true);
 }
