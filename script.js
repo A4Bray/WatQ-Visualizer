@@ -580,9 +580,6 @@ function updateFromState() {
     phi =
         (phi + 2 * Math.PI) %
         (2 * Math.PI);
-
-    thetaSlider.value = theta;
-    phiSlider.value = phi;
     
     animateSliders(theta, phi);
     updateStateDisplay();
