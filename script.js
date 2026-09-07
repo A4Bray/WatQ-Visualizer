@@ -289,7 +289,6 @@ renderer.setPixelRatio(
 );
 
 renderer.setSize(720, 720);
-renderer.setClearColor(0x111111);
 
 document
     .getElementById("bloch")
