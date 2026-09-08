@@ -1708,15 +1708,23 @@ function createQSphereVisualizer(
                 48,
                 48
             ),
-            new THREE.MeshPhongMaterial({
-                color: 0x7744cc,
+            new THREE.MeshPhysicalMaterial({
+                color: blochPalette.sphere,
                 transparent: true,
-                opacity: 0.18
+                opacity: 0.22,
+                roughness: 0.55,
+                metalness: 0.05,
+                clearcoat: 0.35,
+                side: THREE.DoubleSide,
+                depthWrite: false
             })
         );
 
     qScene.add(qSphereMesh);
 
+    let qFresnelSphere = fresnelSphere.clone();
+    qscene.add(qFresnelSphere);
+    
     let equator =
         new THREE.Mesh(
             new THREE.RingGeometry(
@@ -1725,8 +1733,11 @@ function createQSphereVisualizer(
                 64
             ),
             new THREE.MeshBasicMaterial({
-                color: 0x888888,
-                side: THREE.DoubleSide
+                color: blochPalette.primaryGuide,
+                transparent: true,
+                opacity: 0.45,
+                side: THREE.DoubleSide,
+                depthWrite: false
             })
         );
 
@@ -1806,7 +1817,7 @@ function createQSphereMarkers() {
                     24
                 ),
                 new THREE.MeshBasicMaterial({
-                    color: 0xff0000
+                    color: blochPalette.stateVector
                 })
             );
 
