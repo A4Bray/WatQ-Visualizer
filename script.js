@@ -279,9 +279,9 @@ let camera = new THREE.PerspectiveCamera(
 // Default three-quarter camera view
 const defaultCameraPosition =
     new THREE.Vector3(
-        2.0,
-        -2.0,
-        1.5
+        2.163,
+        1.449,
+        1.701
     );
 
 // Treat the Bloch sphere's z-axis
