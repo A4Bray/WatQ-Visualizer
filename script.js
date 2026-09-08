@@ -793,19 +793,19 @@ function updateAngleGuides(
 
     let thetaRadius = 0.36;
     let phiRadius = 0.48;
-    let segmentCount = 0.32;
+    let segmentCount = 32;
 
     // Thetra runs from positive z-axis, towards current statevector
     for (
         let index = 0;
-        index <= segemtCount;
+        index <= segmentCount;
         index++
     ) {
         let angle = theta * (index / segmentCount);
 
         thetaPoints.push(
             new THREE.Vector3(
-                thetaRadius * Math.sin(angle) * Math.cose(phi),
+                thetaRadius * Math.sin(angle) * Math.cos(phi),
                 thetaRadius * Math.sin(angle) * Math.sin(phi),
                 thetaRadius * Math.cos(angle)
             )
@@ -1109,10 +1109,7 @@ function animate() {
         animatedPhi =
             (animatedPhi+ 2 * Math.PI) % (2 * Math.PI);
 
-        updateAngleGuides(
-            animatedTheta,
-            animatePhi
-        );
+        updateAngleGuides(animatedTheta, animatePhi);
 
         
         if (!isAnimating) {
