@@ -1362,7 +1362,6 @@ function animate() {
             (dPhi+ 2 * Math.PI) % (2 * Math.PI);
 
         updateAngleGuides(dTheta, dPhi);
-
         
         if (!isAnimating) {
             currentDir =
@@ -1398,6 +1397,9 @@ function animate() {
         qSphereVisualizer.scene,
         qSphereVisualizer.camera
     );
+
+    qubit0Visualizer.controls.update();
+    qubit1Visualizer.controls.update();
 }
 
 // =========================
@@ -1447,6 +1449,17 @@ function createReducedBlochVisualizer(
             blochRenderer.domElement
         );
 
+    // Reduced-sphere camera controls
+    blochControls.enablePan = false;
+
+    // Prevent extreme vertical rotation
+    blochControls.minPolarAngle = Math.PI * 0.2;
+    blochControls.maxPolarAngle = Math.PI * 0.8;
+
+    // Make rotation feel smoother
+    blochControls.enableDamping = true;
+    blochControls.dampingFactor = 0.08;
+    
     let blochSphere =
         sphere.clone()
 
