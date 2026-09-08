@@ -499,10 +499,10 @@ stateEndPoint.add(
 
 scene.add(stateEndPoint)
 
-function updateStateEndpoint(
+function updateStateEndPoint(
     direction
 ) {
-    stateEndpoint.position.copy(
+    stateEndPoint.position.copy(
         direction
             .clone()
             .normalize()
