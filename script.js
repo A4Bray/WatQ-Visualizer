@@ -1017,6 +1017,7 @@ let thetaGuide =
             color: blochPalette.primaryGuide,
             transparent: true,
             opacity: 0.8,
+            depthTest: false,
             depthWrite: false
         })
     );
@@ -1028,9 +1029,13 @@ let phiGuide =
             color: blochPalette.stateVector,
             transparent: true,
             opacity: 0.65,
+            depthTest: false,
             depthWrite: false
         })
     );
+
+thetaGuide.renderOrder = 3;
+phiGuide.renderOrder = 3;
 
 scene.add(thetaGuide, phiGuide);
 
