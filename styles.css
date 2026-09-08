@@ -269,17 +269,34 @@ progress {
     min-width: 120px;
 }
 
-#entanglementBeam {
+.entanglement-track {
+    position: relative;
     width: 100px;
     height: 8px;
+    border-radius: 5px;
+
+    background: repeating-linear-gradient(
+        to right,
+        rgba(187, 85, 255, 0.35) 0 7px,
+        transparent 7px 12px
+    );
+}
+
+#entanglementBeam {
+	position: absolute;
+	inset: 0;
+
+	border-radius: inherit;
 	background: var(--accent-color);
-	border-radius: 5px;
 	box-shadow:
 		0 0 8px var(--accent-color),
 		0 0 18px var(--accent-color);
 	opacity: 0;
 	transform: scaleX(0);
-	transition: opacity 0.4s, transform 0.4s;
+	transform-origin: center;
+	transition:
+		opacity 0.4s ease,
+		transform 0.4s ease;				 
 }
 
 .q-sphere-card {
