@@ -420,3 +420,54 @@ body {
     }
 }
 
+/* compact two-qubit layout on other desktop screens */
+/* Compact two-qubit layout on shorter desktop screens */
+@media (min-width: 851px) and (max-height: 950px) {
+	#twoQubitPage {
+		padding: 14px 20px;
+	}
+
+	#twoQubitPage > h1 {
+		margin: 10px 0 14px;
+	}
+
+	.two-qubit-layout {
+		flex-wrap: nowrap;
+		gap: 18px;
+	}
+
+	.two-qubit-sidebar {
+		gap: 12px;
+	}
+
+	#twoQubitPage .widget {
+		padding: 12px 14px;
+	}
+
+	#twoQubitPage h3 {
+		margin: 10px 0 7px;
+	}
+
+	#twoQubitPage p {
+		margin: 7px 0;
+	}
+
+	.probability-row {
+		margin: 6px 0;
+	}
+
+	.q-sphere-card {
+		margin-top: 12px;
+	}
+
+	#qubit0Bloch canvas,
+	#qubit1Bloch canvas {
+		width: 270px;
+		height: auto;
+	}
+
+	#qSphere canvas {
+		width: 260px;
+		height: auto;
+	}
+}
