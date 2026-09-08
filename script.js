@@ -355,7 +355,7 @@ let fresnelMaterial =
             glowColor: {
                 value: new THREE.Color(blochPalette.primaryguide)
             },
-                fresnelPower: {value: 3.0}, glowStrength: {value: 0.55}
+                fresnelPower: {value: 3.0}, glowStrength: {value: 0.45}
         },
         
 
@@ -679,12 +679,6 @@ function updateFromState() {
 // =========================
 // BLOCH-SPHERE GUIDES
 // =========================
-let ring = new THREE.Mesh(
-    new THREE.RingGeometry(
-        1,
-        1.01,
-        64
-    ),
     new THREE.MeshBasicMaterial({
         color: blochPalette.primaryGuide,
         transparent: true,
@@ -693,35 +687,56 @@ let ring = new THREE.Mesh(
     })
 );
 
-ring.rotation.x = Math.PI / 2;
-scene.add(ring);
-
-let arcPoints = [];
-
-for (
-    let angle = 0;
-    angle <= Math.PI;
-    angle += 0.05
+function createCircleGuide(
+    pointFunction,
+    color,
+    opacity
 ) {
-    arcPoints.push(
-        new THREE.Vector3(
-            Math.sin(angle),
-            0,
-            Math.cos(angle)
-        )
+    let points = [];
+
+    for (
+        let index = 0;
+        index < 128 * 2 * Math.PI;
+        index ++
+    ) {
+        let angle =
+            (index / 128) * 2 * Math.PI;
+        
+        points.push(
+            pointFunction(angle)
+        );
+    }
+
+    let geometry =
+        new THREE.BufferGeometry()
+            .setFromPoints(points);
+
+    let material =
+        new THREELineBasicMaterial({
+            color: color,
+            transparent: true,
+            opacity: opacity,
+            depthWrite: false
+        });
+
+    return new THREE.LineLoop(
+        geometry,
+        material
     );
 }
 
-let arc = new THREE.Line(
-    new THREE.BufferGeometry().setFromPoints(
-        arcPoints
-    ),
-    new THREE.LineBasicMaterial({
-        color: blochPalette.secondaryGuide
-    })
-);
+let equatorGuide =
+    createCircleGuide(
+        function (angle) {
+            return new THREE.Vector3(
+                1.005 * Math.cos(angle), 1.005 * Math.sin(angle), 0 
+            );
+        },
+        blochPalette.primaryGuide,
+        0.55
+    );
 
-scene.add(arc);
+scene.add(equatorGuide);        
 
 // =========================
 // SPHERICAL INTERPOLATION
@@ -1086,10 +1101,6 @@ function createReducedBlochVisualizer(
             0xffffff,
             0.4
         )
-    );
-
-    blochScene.add(
-        new THREE.AxesHelper(1.4)
     );
 
     let blochArrow =
