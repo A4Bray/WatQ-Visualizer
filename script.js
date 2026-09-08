@@ -346,6 +346,86 @@ let sphere = new THREE.Mesh(
 
 scene.add(sphere);
 
+// =========================
+// FRESNEL RIM GLOW
+// =========================
+let fresnelMaterial =
+    new THREE.ShaderMaterial({
+        uniforms: {
+            glowColor: {
+                value: new THREE.Color(blochPalette.primaryguide)
+            },
+                fresnelPower: {value: 3.0}, glowStrength: {value: 0.55}
+        },
+        
+
+    vertexShader: 
+            `varying float vFresnel;
+
+            uniform float fresnelPower;
+
+            void main() {
+                vec4 viewPosition =
+                    modelViewMatrix *
+                    vec4(position, 1.0);
+
+                vec3 viewNormal =
+                    normalize(
+                        normalMatrix * normal
+                    );
+
+                vec3 viewDirection =
+                    normalize(
+                        -viewPosition.xyz
+                    );
+
+                vFresnel = pow(
+                    1.0 - max(
+                        dot(
+                            viewNormal,
+                            viewDirection
+                        ),
+                        0.0
+                    ),
+                    fresnelPower
+                );
+
+                gl_Position =
+                    projectionMatrix *
+                    viewPosition;
+            }
+        `,
+
+        fragmentShader: 
+            `varying float vFresnel;
+
+            uniform vec3 glowColor;
+            uniform float glowStrength;
+
+            void main() {
+                gl_FragColor = vec4(
+                    glowColor,
+                    vFresnel * glowStrength
+                );
+            }
+        `,
+
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        side: THREE.FrontSide
+    });
+
+let fresnelSphere =
+    new THREE.Mesh(
+        sphere.geometry.clone(),
+        fresnelMaterial
+    );
+
+fresnelSphere.scale.setScalar(1.015);
+
+scene.add(fresnelSphere);
+                                                    
 // Lighting
 let light = new THREE.PointLight(0xffffff, 1);
 
@@ -365,6 +445,7 @@ let axes = new THREE.AxesHelper(1.15);
 axes.material.transparent = true;
 axes.material.opacity = 0.55;
 scene.add(axes);
+
 // =========================
 // STATE-VECTOR ARROW
 // =========================
