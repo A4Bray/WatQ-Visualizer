@@ -2322,7 +2322,7 @@ function updateTwoQubitDisplay(shouldAnimate = true) {
                 "(" +
                 formatComplex(amplitude) +
                 ")|" +
-                TwqQubitBasisLabels[index] +
+                TwoQubitBasisLabels[index] +
                 "⟩"
             );
         }
