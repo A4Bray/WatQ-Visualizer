@@ -1447,7 +1447,7 @@ function createReducedBlochVisualizer(
         equatorGuide.clone();
 
     blochScene.add(
-        BlochSphere,
+        blochSphere,
         reducedFresnelSphere,
         reducedEquatorGuide
     );
