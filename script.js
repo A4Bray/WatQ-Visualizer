@@ -322,10 +322,19 @@ function resetView() {
 // =========================
 // MAIN BLOCH SPHERE
 // =========================
+// Sphere Palette
+const blochPalette = {
+    sphere: 0x17324d,
+    stateVector: 0x4cc9ff,
+    primaryGuide: 0x8f6cff,
+    secondaryGuide: 0x6e8295,
+    label: "#eaf4ff"
+};
+
 let sphere = new THREE.Mesh(
     new THREE.SphereGeometry(1, 64, 64),
     new THREE.MeshPhysicalMaterial({
-        color: 0x358ac4,
+        color: blochPalette.sphere,
         transparent: true,
         opacity: 0.22,
         roughness: 0.65,
@@ -363,7 +372,7 @@ let arrow = new THREE.ArrowHelper(
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(0, 0, 0),
     1,
-    0xff0000,
+    blochPalette.stateVector,
     0.2,
     0.1
 );
@@ -380,7 +389,7 @@ function createLabel(text, pos) {
     canvas.width = 256;
     canvas.height = 128;
 
-    ctx.fillStyle = "white";
+    ctx.fillStyle = blochPalette.label;
     ctx.font = "40px Arial";
     ctx.fillText(text, 50, 70);
 
@@ -596,7 +605,7 @@ let ring = new THREE.Mesh(
         64
     ),
     new THREE.MeshBasicMaterial({
-        color: 0xbb55ff,
+        color: blochPalette.primaryGuide,
         transparent: true,
         opacity: 0.25,
         side: THREE.DoubleSide
@@ -627,7 +636,7 @@ let arc = new THREE.Line(
         arcPoints
     ),
     new THREE.LineBasicMaterial({
-        color: 0xffff00
+        color: blochPalette.secondaryGuide
     })
 );
 
