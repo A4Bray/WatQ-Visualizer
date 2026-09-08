@@ -467,7 +467,13 @@ scene.add(ambientLight);
 
 // Coordinate axes
 let axes = new THREE.AxesHelper(1.15);
-axes.visible = false;
+axes.material.transparent = true;
+axes.material.opacity= 0.4;
+
+axes.material.depthTest = false;
+axe.material.depthWrite = false;
+
+axes.renderOrder = 2;
 scene.add(axes);
 
 // =========================
