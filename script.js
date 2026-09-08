@@ -523,7 +523,7 @@ stateEndPoint.add(
     endPointGlow
 );
 
-scene.add(stateEndPoint)
+scene.add(stateEndPoint);
 
 function updateStateEndPoint(
     direction
@@ -545,7 +545,7 @@ const blochLabelStyle = {
     fillStyle: blochPalette.label,
     textAlign: "center",
     textBaseline: "middle", 
-    shadowColor: rgba(76, 201, 255, 0.45),
+    shadowColor: "rgba(76, 201, 255, 0.45)",
     shadowBlur: 10
 };
 
@@ -558,7 +558,7 @@ function createLabel(text, pos) {
 
     // Larger canvas = sharper text
     canvas.width = 512;
-    canva.height = 256;
+    canvas.height = 256;
 
     context.clearRect(
         0, 0,
@@ -580,7 +580,7 @@ function createLabel(text, pos) {
     texture.minFilter = THREE.LinearFilter;
 
     let material = 
-        NEW THREE.SpriteMaterial({
+        new THREE.SpriteMaterial({
             map: texture,
             transparent: true,
             opacity: 0.9,
@@ -592,7 +592,7 @@ function createLabel(text, pos) {
     label.position.copy(pos);
     label.scale.set(0.42, 0.21, 1);
 
-    scene.add(label)
+    scene.add(label);
 
     return label;
 }
@@ -777,7 +777,7 @@ function displaySingleProbabilities(p0, p1) {
         "prob0"
     ).innerText =
         "P(0): " +
-        p1.toFixed(3);
+        p0.toFixed(3);
         
     document.getElementById(
         "prob1"
@@ -815,7 +815,7 @@ function animateSingleProbabilities(
 
     function moveProbabilities(currentTime) {
         let progress =
-            Math.min(currentTime - StartingTime) / stateTransitionDuration, 1
+            Math.min(currentTime - startingTime) / stateTransitionDuration, 1
             );
 
         let easedProgress = 
@@ -836,11 +836,11 @@ function animateSingleProbabilities(
                 requestAnimationFrame(moveProbabilities
             );
         } else {
-            ProbabilityAnimationFrame = null;
+            probabilityAnimationFrame = null;
         }
     }
 
-    ProbabilityAnimationFrame = requestAnimationFrame(moveProbabilities);
+    probabilityAnimationFrame = requestAnimationFrame(moveProbabilities);
 }
 
 // =========================
@@ -1120,7 +1120,18 @@ function updateBloch(
         isAnimating = false;
     }
 
-  
+    let p0 =
+        Math.pow(
+            Math.cos(theta / 2),
+            2
+        );
+
+    let p1 =
+        Math.pow(
+            Math.sin(theta / 2),
+            2
+        );
+    
     if (shouldAnimate) {
         isAnimating = true
         animateSingleProbabilities(p0, p1);
@@ -1230,7 +1241,7 @@ updateBloch(
 // RENDER LOOP
 // =========================
 function animate() {
-    requestAnimationFrame();
+    requestAnimationFrame(animation);
 
     if (isAnimating) {
         t += 0.05;
