@@ -1050,7 +1050,7 @@ function updateAngleGuides(
     let thetaPoints = [];
     let phiPoints = [];
 
-    let thetaRadius = 0.36;
+    let thetaRadius = 0.48;
     let phiRadius = 0.48;
     let segmentCount = 32;
 
