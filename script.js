@@ -1453,7 +1453,7 @@ function createReducedBlochVisualizer(
 
     // Reduced-sphere camera controls
     blochControls.enablePan = false;
-
+    blochControls.enableZoom = false;
     // Prevent extreme vertical rotation
     blochControls.minPolarAngle = Math.PI * 0.2;
     blochControls.maxPolarAngle = Math.PI * 0.8;
@@ -1849,7 +1849,7 @@ function createQSphereMarkers() {
                         basisState.position
                     ]),
                 new THREE.LineBasicMaterial({
-                    color: 0xff0000,
+                    color: blochPalette.stateVector,
                     transparent: true,
                     opacity: 0
                 })
