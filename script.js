@@ -1109,7 +1109,7 @@ function animate() {
         animatedPhi =
             (animatedPhi+ 2 * Math.PI) % (2 * Math.PI);
 
-        updateAngleGuides(animatedTheta, animatePhi);
+        updateAngleGuides(animatedTheta, animatedPhi);
 
         
         if (!isAnimating) {
