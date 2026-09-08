@@ -276,8 +276,33 @@ let camera = new THREE.PerspectiveCamera(
     1000
 );
 
-camera.position.z = 2.4;
+// Default three-quarter camera view
+const defaultCameraPosition =
+    new THREE.Vector3(
+        2.0,
+        -2.0,
+        1.5
+    );
 
+// Treat the Bloch sphere's z-axis
+// as the vertical direction.
+camera.up.set(
+    0,
+    0,
+    1
+);
+
+camera.position.copy(
+    defaultCameraPosition
+);
+
+camera.lookAt(
+    0,
+    0,
+    0
+);
+
+// render the image and color code
 let renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true
@@ -314,7 +339,8 @@ controls.rotateSpeed = 0.65;
 controls.zoomSpeed = 0.8;
 
 function resetView() {
-    camera.position.set(0, 0, 3.2);
+    camera.up.set(0, 0, 1);
+    camera.position.copy(defaultCameraPosition);
     controls.target.set(0, 0, 0);
     controls.update();
 }
