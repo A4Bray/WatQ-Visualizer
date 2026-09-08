@@ -420,8 +420,8 @@ body {
     }
 }
 
-/* compact two-qubit layout on other desktop screens *//
-@media (min-width: 1100px) {
+/* compact two-qubit layout on shorter desktop screens *//
+@media (min-width: 851px) and (max-height: 950px) {
 	#twoQubitPage {
 		padding: 14px 20px;
 	}
@@ -467,17 +467,31 @@ body {
 	}
 
 	.bloch-pair {
-		gap: 12px;
+		padding: 10px 14px;
 	}
+	
+	.bloch-card h3 {
+        margin: 4px 0 6px;
+    }
+
+    .bloch-card p {
+        margin: 6px 0 2px;
+    }
 
 	.entanglement-connection {
 		min-width: 90px;
 	}
-
+	
 	.q-sphere-card {
-		margin-top: 12px;
+		margin-top: 0;
+		padding: 10px 14px;
 	}
-
+	
+	.q-sphere-card h3,
+	.q-sphere-card p {
+   		margin: 6px 0;
+	}
+	
 	#qubit0Bloch canvas,
 	#qubit1Bloch canvas {
 		width: 220px;
