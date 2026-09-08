@@ -353,7 +353,7 @@ let fresnelMaterial =
     new THREE.ShaderMaterial({
         uniforms: {
             glowColor: {
-                value: new THREE.Color(blochPalette.primaryguide)
+                value: new THREE.Color(blochPalette.primaryGuide)
             },
                 fresnelPower: {value: 3.0}, glowStrength: {value: 0.45}
         },
@@ -784,6 +784,30 @@ scene.add(equatorGuide);
 // =========================
 // THETA & PHI GUIDES
 // =========================
+let thetaGuide =
+    new THREE.Line(
+        new THREE.BufferGeometry(),
+        new THREE.LineBasicMaterial({
+            color: blochPalette.primaryGuide,
+            transparent: true,
+            opacity: 0.8,
+            depthWrite: false
+        })
+    );
+
+let phiGuide =
+    new THREE.Line(
+        new THREE.BufferGeometry(),
+        new THREE.LineBasicMaterial({
+            color: blochPalette.stateVector,
+            transparent: true,
+            opacity: 0.65,
+            depthWrite: false
+        })
+    );
+
+scene.add(thetaGuide, phiGuide);
+
 function updateAngleGuides(
     theta,
     phi
