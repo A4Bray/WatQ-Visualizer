@@ -711,6 +711,7 @@ function prepareZero() {
 // =========================
 // SLIDER TRANSITION
 // =========================
+const stateTransitionDuration = 350;
 let sliderAnimationFrame = null;
 
 function animateSliders(
@@ -727,7 +728,7 @@ function animateSliders(
     let startingPhi = parseFloat(phiSlider.value);
 
     let startingTime = performance.now();
-    let duration = 350;
+    let duration = stateTransitionDuration;
 
     function moveSliders(currentTime) {
         let progress = Math.min(
@@ -1170,7 +1171,7 @@ updateBloch(
 // RENDER LOOP
 // =========================
 function animate() {
-    requestAnimationFrame(animate);
+    requestAnimationFrame();
 
     if (isAnimating) {
         t += 0.05;
@@ -1179,7 +1180,7 @@ function animate() {
             t = 1;
             isAnimating = false;
         }
-
+        
         let newDir = slerpVector(
             currentDir,
             targetDir,
@@ -1189,20 +1190,20 @@ function animate() {
         arrow.setDirection(newDir);
         updateStateEndPoint(newDir);
 
-        let animatedTheta = 
+        let dTheta = 
             Math.acos(
                 Math.max(-1, Math.min(1, newDir.z))
             );
 
-        let animatedPhi =
+        let dPhi =
             Math.atan2(
                 newDir.y, newDir.x
             );
         
-        animatedPhi =
-            (animatedPhi+ 2 * Math.PI) % (2 * Math.PI);
+        dPhi =
+            (dPhi+ 2 * Math.PI) % (2 * Math.PI);
 
-        updateAngleGuides(animatedTheta, animatedPhi);
+        updateAngleGuides(dTheta, dPhi);
 
         
         if (!isAnimating) {
@@ -1211,6 +1212,13 @@ function animate() {
         }
     }
 
+    let endPointPulse =
+        isAnimating
+            ? 1 + 0.15 * Math.sin(Math.PI * t)
+            : 1;
+
+    stateEndPoint.scale.setScalar(endPointPulse);
+        
     controls.update();
     
     renderer.render(
