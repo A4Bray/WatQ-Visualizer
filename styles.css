@@ -33,17 +33,42 @@ button {
 
 /* buttons */
 button {
-	cursor: pointer;
-	transition: transform 0.15s ease, border-color 0.15s ease;
+    padding: 9px 14px;
+
+    color: var(--text-color);
+    background: rgba(28, 28, 34, 0.9);
+
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
 }
 
 button:hover {
-	border-color: var(--accent-color);
-	transform: translateY(-1px);
+    background: rgba(187, 85, 255, 0.12);
+    border-color: var(--accent-color);
+
+    box-shadow:
+        0 0 8px rgba(187, 85, 255, 0.25);
+
+    transform: translateY(-1px);
 }
 
 button:active {
-	transform: translateY(0);
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
 }
 
 /* Calculated single-qubit results */
@@ -376,6 +401,10 @@ body {
 
 		
 .mode-button { 
+	min-width: 230px;
+	margin: 5px;
+	padding: 12px 18px;
+	
 	opacity: 0;
 	transform: translateY(12px);
 	animation: fadeInButton 0.8s ease-out forwards;
