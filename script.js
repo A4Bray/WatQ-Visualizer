@@ -460,6 +460,57 @@ let arrow = new THREE.ArrowHelper(
 
 scene.add(arrow);
 
+// add an ednpoint to the arrow
+let stateEndPoint =
+    new THREE.Group();
+
+let endPointMarker =
+    new THREE.Mesh (
+        new THREE.SphereGeometry(
+            0.045,
+            24,
+            24
+        ),
+        new THREE.MeshBasicMaterial({
+            color: blochPalette.stateVector
+        })
+    );
+
+let endPointGlow =
+    new THREE.Mesh(
+        new THREE.SphereGeometry(
+            0.10,
+            24,
+            24
+        ),
+        new THREE.MeshBasicMaterial({
+            color: blochPalette.stateVector,
+            transparent: true,
+            opacity: 0.18,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        })
+    );
+
+stateEndPoint.add(
+    endPointMarker,
+    endPointGlow
+);
+
+scene.add(stateEndPoint)
+
+function updateStateEndpoint(
+    direction
+) {
+    stateEndpoint.position.copy(
+        direction
+            .clone()
+            .normalize()
+    );
+}
+
+updateStateEndpoint(currentDir);
+
 // =========================
 // BLOCH-SPHERE LABELS
 // =========================
