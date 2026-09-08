@@ -782,6 +782,64 @@ let equatorGuide =
 scene.add(equatorGuide);        
 
 // =========================
+// THETA & PHI GUIDES
+// =========================
+function updateAngleGuides(
+    theta,
+    phi
+) {
+    let thetaPoints = [];
+    let phiPoints = [];
+
+    let thetaRadius = 0.36;
+    let phiRadius = 0.48;
+    let segmentCount = 0.32;
+
+    // Thetra runs from positive z-axis, towards current statevector
+    for (
+        let index = 0;
+        index <= segemtCount;
+        index++
+    ) {
+        let angle = theta * (index / segmentCount);
+
+        thetaPoints.push(
+            new THREE.Vector3(
+                thetaRadius * Math.sin(angle) * Math.cose(phi),
+                thetaRadius * Math.sin(angle) * Math.sin(phi),
+                thetaRadius * Math.cos(angle)
+            )
+
+        );
+    }
+
+    //phi runs around the equatorial
+
+    for (
+        let index = 0;
+        index <= segmentCount;
+        index++
+    ) {
+        let angle = phi * (index / segmentCount);
+
+        phiPoints.push(
+            new THREE.Vector3(
+                phiRadius * Math.cos(angle),
+                phiRadius * Math.sin(angle),
+                0
+            )
+        );
+    }
+
+    thetaGuide.geometry.setFromPoints(thetaPoints);
+    phiGuide.geometry.setFromPoints(phiPoints);
+
+    // Phi has no physical meaning at either pole
+    phiGuide.visible =
+        Math.sin(theta) > 0.01 &&
+        phi > 0.01;
+}
+// =========================
 // SPHERICAL INTERPOLATION
 // =========================
 function slerpVector(v1, v2, amount) {
@@ -883,13 +941,15 @@ function updateBloch(
     } else {
         arrow.setDirection(targetDir);
         updateStateEndPoint(targetDir);
-
+        updateAngleGuides(theta, phi);
+        
         currentDir =
             targetDir.clone();
 
         isAnimating = false;
     }
 
+  
     let p0 =
         Math.pow(
             Math.cos(theta / 2),
@@ -1036,6 +1096,25 @@ function animate() {
         arrow.setDirection(newDir);
         updateStateEndPoint(newDir);
 
+        let animatedTheta = 
+            Math.acos(
+                Math.max(-1, Math.min(1, newDir.z))
+            );
+
+        let animatedPhi =
+            Math.atan2(
+                newDir.y, newDir.x
+            );
+        
+        animatedPhi =
+            (animatedPhi+ 2 * Math.PI) % (2 * Math.PI);
+
+        updateAngleGuides(
+            animatedTheta,
+            animatePhi
+        );
+
+        
         if (!isAnimating) {
             currentDir =
                 targetDir.clone();
