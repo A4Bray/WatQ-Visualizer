@@ -679,14 +679,6 @@ function updateFromState() {
 // =========================
 // BLOCH-SPHERE GUIDES
 // =========================
-    new THREE.MeshBasicMaterial({
-        color: blochPalette.primaryGuide,
-        transparent: true,
-        opacity: 0.25,
-        side: THREE.DoubleSide
-    })
-);
-
 function createCircleGuide(
     pointFunction,
     color,
@@ -696,7 +688,7 @@ function createCircleGuide(
 
     for (
         let index = 0;
-        index < 128 * 2 * Math.PI;
+        index < 128;
         index ++
     ) {
         let angle =
@@ -712,7 +704,7 @@ function createCircleGuide(
             .setFromPoints(points);
 
     let material =
-        new THREELineBasicMaterial({
+        new THREE.LineBasicMaterial({
             color: color,
             transparent: true,
             opacity: opacity,
