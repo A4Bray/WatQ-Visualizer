@@ -1382,24 +1382,26 @@ function animate() {
         scene,
         camera
     );
-
+    
+    qubit0Visualizer.controls.update();
     qubit0Visualizer.renderer.render(
         qubit0Visualizer.scene,
         qubit0Visualizer.camera
     );
-
+    
+    qubit1Visualizer.controls.update();
     qubit1Visualizer.renderer.render(
         qubit1Visualizer.scene,
         qubit1Visualizer.camera
     );
 
+    qSphereVisualizer.controls.update()
     qSphereVisualizer.renderer.render(
         qSphereVisualizer.scene,
         qSphereVisualizer.camera
     );
 
-    qubit0Visualizer.controls.update();
-    qubit1Visualizer.controls.update();
+
 }
 
 // =========================
@@ -1653,7 +1655,13 @@ function createQSphereVisualizer(
             1000
         );
 
-    qCamera.position.z = 3;
+    qCamera.up.set(0, 0, 1);
+    qCamera.position.set(
+        1.8,
+        -1.8,
+        1.3
+    );
+    qCamera.lookAt(0, 0, 0);
 
     // Converts the Three.js scene into
     // pixels on a canvas.
@@ -1668,7 +1676,7 @@ function createQSphereVisualizer(
     );
     
     qRenderer.setSize(
-        350,
+        380,
         350
     );
 
@@ -1683,7 +1691,15 @@ function createQSphereVisualizer(
             qCamera,
             qRenderer.domElement
         );
+    qControls.enableZoom = false;
+    qControls.enablePan = true;
+    qControls.enableDamping = true;
+    qControls.dampingFactor = 0.08;
+    qControls.minPolarAngle = Math.PI * 0.2;
+    qControls.maxPolarAngle = MAth.PI * 0.8;
 
+
+    
     // Mesh = geometry + material.
     let qSphereMesh =
         new THREE.Mesh(
@@ -1863,13 +1879,13 @@ function phaseToColor(
         (2 * Math.PI);
 
     let hue =
-        normalizedPhase /
-        (2 * Math.PI);
+        (normalizedPhase /
+        (2 * Math.PI) + 0.55) % 1;
 
     return new THREE.Color().setHSL(
         hue,
-        1,
-        0.5
+        0.85,
+        0.6
     );
 }
 
