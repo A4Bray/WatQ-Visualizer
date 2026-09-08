@@ -1395,7 +1395,7 @@ function animate() {
         qubit1Visualizer.camera
     );
 
-    qSphereVisualizer.controls.update()
+    qSphereVisualizer.controls.update();
     qSphereVisualizer.renderer.render(
         qSphereVisualizer.scene,
         qSphereVisualizer.camera
@@ -1677,7 +1677,7 @@ function createQSphereVisualizer(
     
     qRenderer.setSize(
         380,
-        350
+        380
     );
 
     document
@@ -1692,11 +1692,11 @@ function createQSphereVisualizer(
             qRenderer.domElement
         );
     qControls.enableZoom = false;
-    qControls.enablePan = true;
+    qControls.enablePan = false;
     qControls.enableDamping = true;
     qControls.dampingFactor = 0.08;
     qControls.minPolarAngle = Math.PI * 0.2;
-    qControls.maxPolarAngle = MAth.PI * 0.8;
+    qControls.maxPolarAngle = Math.PI * 0.8;
 
 
     
