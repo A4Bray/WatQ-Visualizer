@@ -549,7 +549,7 @@ body {
 	}
 
 	#qSphere canvas {
-		width: 320px;
+		width: min(500px, 100%);
 		height: auto;
 	}
 }
