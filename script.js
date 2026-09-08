@@ -843,6 +843,85 @@ function animateSingleProbabilities(
     probabilityAnimationFrame = requestAnimationFrame(moveProbabilities);
 }
 
+// For two qubits
+const twoQubitBasisLabel = ["00", "01", "10", "11"]
+const twoQubitProbabilityIds = ["prob00", "prob01", "prob10", "prob11"]
+const twoQubitProbabilityBarIds = ["bar00", "bar01", "bar10", "bar11"]
+
+letTwoQubitProbabilityAnimationFrame = null;
+
+function displayTwoQubitProbabilities(probabilities) {
+    for (
+        let index = 0;
+        index < probabilities.length;
+        index++;
+    ) {
+        document.getElementById(twoQubitProbabilityIds
+        ).innerText = 
+            "P(" +
+            twoQubitProbabilityBasisLabels[index] + 
+            "):" +
+            probabilities[index].toFixed(3);
+
+        document.getElementById(twoQubitProbabilityBarIds[index]
+        ).value =
+            probabilities[index];
+    }
+}
+
+function animateTwoQubitProbabilities(targetProbabilities) {
+    if (
+        twoQubitProbabilityAnimationFrame !== null
+    ) {
+        cancelAnimationFrame(twoQubitProbabilityAnimationFrame);
+    }
+
+    let startingProbabilities = 
+        twoQubitProbabilitiesBarIds.map(
+            function(barId) {
+                return Number(document.getElementById(barId).value
+                );
+            }
+        );
+
+    let startingTime = performance.now();
+
+    function moveProbabilities(currentTime) {
+        let progress =
+            Math.min((currentTime - startingTime) / stateTransitionDuration, 1
+            );
+
+        let easedProgress = 
+            progress < 0.5 
+                ? 2 * progress ** 2
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        let displayedProbabilities =
+            targetProbabilities.map(
+                function (targetProbability, index) {
+                    return (
+                        startingProbabilities[index] + 
+                        (targetProbability - startingProbabilties) * easedProgress
+                    );
+                }
+            );
+
+        displayTwoQubitProbabilities(displayedProbabilities);
+
+        if (
+            progress < 1
+        ) {
+            twoQubitProbabilityAnimationFrame =
+                requestAnimationFrame(moveProbabilities);
+        } else {
+            twoQubitProbabilityAnimationFrame= null;
+        }
+    }
+
+    twoQubitProbabilityAnimationFrame =
+        requestAnimationFrame(moveProbabilities);
+}
+
 // =========================
 // STATE TO BLOCH ANGLES
 // =========================
@@ -2214,29 +2293,8 @@ function describeBlochLength(length) {
 // =========================
 // TWO-QUBIT DISPLAY
 // =========================
-function updateTwoQubitDisplay() {
+function updateTwoQubitDisplay(shouldAnimate = true) {
     normalizeTwoQubitState();
-
-    let basisLabels = [
-        "00",
-        "01",
-        "10",
-        "11"
-    ];
-
-    let probabilityIds = [
-        "prob00",
-        "prob01",
-        "prob10",
-        "prob11"
-    ];
-
-    let probabilityBarIds = [
-        "bar00",
-        "bar01",
-        "bar10",
-        "bar11"
-    ];
 
     let probabilities = [];
     let stateTerms = [];
@@ -2256,18 +2314,6 @@ function updateTwoQubitDisplay() {
             probability
         );
 
-        document.getElementById(
-            probabilityIds[index]
-        ).innerText =
-            "P(" +
-            basisLabels[index] +
-            "): " +
-            probability.toFixed(3);
-
-        document.getElementById(
-            probabilityBarIds[index]
-        ).value = probability;
-
         if (
             magnitude(amplitude) >
             0.000001
@@ -2276,12 +2322,27 @@ function updateTwoQubitDisplay() {
                 "(" +
                 formatComplex(amplitude) +
                 ")|" +
-                basisLabels[index] +
+                TwqQubitBasisLabels[index] +
                 "⟩"
             );
         }
     }
 
+    if (
+        shouldAnimate
+    ) {
+    animateTwoQubitProbabilities(probabilities);
+    } else {
+        if (
+            twoQubitProbabilityAnimationFrame !== null
+    ) {
+        cancelAnimationFrame(twoQubitProbabilityAnimationFrame);
+        twoQubitProbabilityAnimationFrame = null;
+    }
+        
+    displayTwoQubitProbabilities(probabilities);
+}
+    
     document.getElementById(
         "twoQubitStateDisplay"
     ).innerText =
@@ -2420,7 +2481,7 @@ function updateTwoQubitDisplay() {
 }
 
 // Initialize the two-qubit displays.
-updateTwoQubitDisplay();
+updateTwoQubitDisplay(false);
 
 // Begin rendering after all scenes and
 // visualizers have been created.
