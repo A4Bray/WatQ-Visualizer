@@ -844,23 +844,23 @@ function animateSingleProbabilities(
 }
 
 // For two qubits
-const twoQubitBasisLabel = ["00", "01", "10", "11"]
+const twoQubitBasisLabels = ["00", "01", "10", "11"]
 const twoQubitProbabilityIds = ["prob00", "prob01", "prob10", "prob11"]
 const twoQubitProbabilityBarIds = ["bar00", "bar01", "bar10", "bar11"]
 
-letTwoQubitProbabilityAnimationFrame = null;
+let twoQubitProbabilityAnimationFrame = null;
 
 function displayTwoQubitProbabilities(probabilities) {
     for (
         let index = 0;
         index < probabilities.length;
-        index++;
+        index++
     ) {
-        document.getElementById(twoQubitProbabilityIds
+        document.getElementById(twoQubitProbabilityIds[index]
         ).innerText = 
             "P(" +
-            twoQubitProbabilityBasisLabels[index] + 
-            "):" +
+            twoQubitBasisLabels[index] + 
+            "): " +
             probabilities[index].toFixed(3);
 
         document.getElementById(twoQubitProbabilityBarIds[index]
@@ -877,7 +877,7 @@ function animateTwoQubitProbabilities(targetProbabilities) {
     }
 
     let startingProbabilities = 
-        twoQubitProbabilitiesBarIds.map(
+        twoQubitProbabilityBarIds.map(
             function(barId) {
                 return Number(document.getElementById(barId).value
                 );
@@ -901,7 +901,7 @@ function animateTwoQubitProbabilities(targetProbabilities) {
                 function (targetProbability, index) {
                     return (
                         startingProbabilities[index] + 
-                        (targetProbability - startingProbabilties) * easedProgress
+                        (targetProbability - startingProbabilities[index]) * easedProgress
                     );
                 }
             );
