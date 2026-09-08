@@ -1438,20 +1438,19 @@ function createReducedBlochVisualizer(
         );
 
     let blochSphere =
-        new THREE.Mesh(
-            new THREE.SphereGeometry(
-                1,
-                48,
-                48
-            ),
-            new THREE.MeshPhongMaterial({
-                color: 0x3399ff,
-                transparent: true,
-                opacity: 0.25
-            })
-        );
+        sphere.clone()
 
-    blochScene.add(blochSphere);
+    let reducedFresnelSphere = 
+        fresnelSphere.clone()
+
+    let reducedEquatorGuide =
+        equatorGuide.clone();
+
+    blochScene.add(
+        BlochSphere,
+        reducedFresnelSphere,
+        reducedEquatorGuide
+    );
 
     let pointLight =
         new THREE.PointLight(
