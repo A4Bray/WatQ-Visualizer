@@ -1413,16 +1413,17 @@ function createReducedBlochVisualizer(
 
     let blochRenderer =
         new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
+            alpha: true
         });
+
+    blochRenderer.setClearColor(
+        0x000000, 0
+    );
 
     blochRenderer.setSize(
         320,
         320
-    );
-
-    blochRenderer.setClearColor(
-        0x111111
     );
 
     document
@@ -1636,16 +1637,17 @@ function createQSphereVisualizer(
     // pixels on a canvas.
     let qRenderer =
         new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
+            alpha: true
         });
 
+    qRenderer.setColor(
+        0x000000, 0
+    );
+    
     qRenderer.setSize(
         350,
         350
-    );
-
-    qRenderer.setClearColor(
-        0x111111
     );
 
     document
