@@ -514,41 +514,84 @@ updateStateEndPoint(currentDir);
 // =========================
 // BLOCH-SPHERE LABELS
 // =========================
+const blochLabelStyle = {
+    font: '600 72px "Times New Roman", serif',
+    fillStyle: blochPalette.label,
+    textAlign: "center",
+    textBaseline: "middle", 
+    shadowColor: rgba(76, 201, 255, 0.45),
+    shadowBlur: 10
+};
+
 function createLabel(text, pos) {
-    let canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
 
-    canvas.width = 256;
-    canvas.height = 128;
+    let canvas = 
+        document.createElement("canvas");
+    let context =
+        canvas.getContext("2d");
 
-    ctx.fillStyle = blochPalette.label;
-    ctx.font = "40px Arial";
-    ctx.fillText(text, 50, 70);
+    // Larger canvas = sharper text
+    canvas.width = 512;
+    canva.height = 256;
 
-    let texture = new THREE.CanvasTexture(canvas);
-
-    let sprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-            map: texture
-        })
+    context.clearRect(
+        0, 0,
+        canvas.width,
+        canvas.height
     );
 
-    sprite.position.copy(pos);
-    sprite.scale.set(0.5, 0.25, 1);
+    // Apply all label appearances
+    Object.assign(context, blochLabelStyle);
 
-    scene.add(sprite);
+    context.fillText(
+        text,
+        canvas.width / 2,
+        canvas.height / 2
+    );
+
+    let texture = 
+        new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+
+    let material = 
+        NEW THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            opacity: 0.9,
+            depthWrite: false
+        });
+
+    let label = 
+        new THREE.Sprite(material);
+    label.position.copy(pos);
+    label.scale.set(0.42, 0.21, 1);
+
+    scene.add(label)
+
+    return label;
 }
+        
+// Place computational-basis labels outside two poles
+let zeroLabel =
+    createLabel(
+        "|0⟩",
+        new THREE.Vector3(
+            0,
+            0,
+            1.24
+        )
+    );
 
-createLabel(
-    "|0⟩",
-    new THREE.Vector3(0, 0, 1.2)
-);
-
-createLabel(
-    "|1⟩",
-    new THREE.Vector3(0, 0, -1.2)
-);
-
+let oneLabel =
+    createLabel(
+        "|1⟩",
+        new THREE.Vector3(
+            0,
+            0,
+            -1.24
+        )
+    );
+            
 // =========================
 // SINGLE-QUBIT GATE LOGIC
 // =========================
