@@ -142,8 +142,8 @@ button:active {
 	height: 19px;
 	border: none;
 	border-radius: 50%;
-	background: var(--accent-color);
-	box-shadow: 0 0 13px rgba(--slider-color);
+	background: var(--slider-color);
+	box-shadow: 0 0 8px rgba(22, 140, 255, 0.65);
 	transition:
 		transform 0.15s ease,
 		box-shadow 0.15s ease;
@@ -159,7 +159,7 @@ button:active {
 .single-qubit-controls input[type="range"]:hover::-moz-range-thumb,
 .single-qubit-controls input[type="range"]:active::-moz-range-thumb {
 	transform: scale(1.15);
-	box-shadow: 0 0 13px var(--accent-color);
+	box-shadow: 0 0 13px var(--slider-color);
 }
 	/* single-qubit buttons */
 .single-qubit-controls button {
@@ -420,9 +420,8 @@ body {
     }
 }
 
-/* compact two-qubit layout on other desktop screens */
-/* Compact two-qubit layout on shorter desktop screens */
-@media (min-width: 851px) and (max-height: 950px) {
+/* compact two-qubit layout on other desktop screens *//
+@media (min-width: 1100px) and (max-height: 950px) {
 	#twoQubitPage {
 		padding: 14px 20px;
 	}
