@@ -509,7 +509,7 @@ function updateStateEndPoint(
     );
 }
 
-updateStateEndpoint(currentDir);
+updateStateEndPoint(currentDir);
 
 // =========================
 // BLOCH-SPHERE LABELS
