@@ -460,7 +460,7 @@ let arrow = new THREE.ArrowHelper(
 
 scene.add(arrow);
 
-// add an ednpoint to the arrow
+// add an endpoint to the arrow
 let stateEndPoint =
     new THREE.Group();
 
