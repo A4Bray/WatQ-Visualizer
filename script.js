@@ -1723,7 +1723,7 @@ function createQSphereVisualizer(
     qScene.add(qSphereMesh);
 
     let qFresnelSphere = fresnelSphere.clone();
-    qscene.add(qFresnelSphere);
+    qScene.add(qFresnelSphere);
     
     let equator =
         new THREE.Mesh(
