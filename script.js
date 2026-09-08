@@ -765,7 +765,84 @@ function animateSliders(
 
     sliderAnimationFrame = requestAnimationFrame(moveSliders);
 }
-    
+
+// =========================
+// PROBABILITY BAR TRANSITIONS
+// =========================
+let probabilityAnimationFrame = null;
+
+//for single qubit
+function displaySingleProbabilities(p0, p1) {
+    document.getElementById(
+        "prob0"
+    ).innerText =
+        "P(0): " +
+        p1.toFixed(3);
+        
+    document.getElementById(
+        "prob1"
+    ).innerText =
+        "P(1): " +
+        p1.toFixed(3);
+
+    document.getElementById(
+        "singleBar0"
+    ).value = p0;
+
+    document.getElementById(
+        "singleBar1"
+    ).value = p1;
+}
+
+function animateSingleProbabilities(
+    targetP0, targetP1
+) {
+    if (
+        probabilityAnimationFrame !== null
+    ) {
+        cancelAnimationFrame(probabilityAnimationFrame);
+    }
+        
+    let startingP0 = 
+        Number(document.getElementById("singleBar0").value
+        );
+
+    let startingP1 =
+        Number(document.getElementById("singleBar1").value
+        );
+
+    let startingTime = performance.now();
+
+    function moveProbabilities(currentTime) {
+        let progress =
+            Math.min(currentTime - StartingTime) / stateTransitionDuration, 1
+            );
+
+        let easedProgress = 
+            progress < 0.5 
+                ? 2 * progress ** 2
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        let displayedP0 =
+            startingP0 + (targetP0 - startingP0) * easedProgress;
+
+        let displayedP1 = 
+            startingP1 + (targetP1 - startingP1) * easedProgress;
+
+        displaySingleProbabilities(displayedP0, displayedP1);
+
+        if (progress < 1) {
+            probabilityAnimationFrame = 
+                requestAnimationFrame(moveProbabilities
+            );
+        } else {
+            ProbabilityAnimationFrame = null;
+        }
+    }
+
+    ProbabilityAnimationFrame = requestAnimationFrame(moveProbabilities);
+}
+
 // =========================
 // STATE TO BLOCH ANGLES
 // =========================
@@ -1044,37 +1121,19 @@ function updateBloch(
     }
 
   
-    let p0 =
-        Math.pow(
-            Math.cos(theta / 2),
-            2
-        );
+    if (shouldAnimate) {
+        isAnimating = true
+        animateSingleProbabilities(p0, p1);
+    } else {
+        if ( 
+            probabilityAnimationFrame !== null
+        ) {
+            cancelAnimationFrame(probabilityAnimationFrame);
+            probabilityAnimationFrame = null;
+        }
 
-    let p1 =
-        Math.pow(
-            Math.sin(theta / 2),
-            2
-        );
-    
-    document.getElementById(
-        "prob0"
-    ).innerText =
-        "P(0): " +
-        p0.toFixed(3);
-
-    document.getElementById(
-        "prob1"
-    ).innerText =
-        "P(1): " +
-        p1.toFixed(3);
-
-    document.getElementById(
-        "singleBar0"
-    ).value = p0;
-
-    document.getElementById(
-        "singleBar1"
-    ).value = p1;
+        displaySingleProbabilities(p0, p1);
+    }
     
     updateStateDisplay();
 }
