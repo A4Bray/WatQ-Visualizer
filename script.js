@@ -1641,7 +1641,7 @@ function createQSphereVisualizer(
             alpha: true
         });
 
-    qRenderer.setColor(
+    qRenderer.setClearColor(
         0x000000, 0
     );
     
