@@ -815,7 +815,7 @@ function animateSingleProbabilities(
 
     function moveProbabilities(currentTime) {
         let progress =
-            Math.min(currentTime - startingTime) / stateTransitionDuration, 1
+            Math.min((currentTime - startingTime) / stateTransitionDuration, 1
             );
 
         let easedProgress = 
@@ -1241,7 +1241,7 @@ updateBloch(
 // RENDER LOOP
 // =========================
 function animate() {
-    requestAnimationFrame(animation);
+    requestAnimationFrame(animate);
 
     if (isAnimating) {
         t += 0.05;
