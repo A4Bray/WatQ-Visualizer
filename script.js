@@ -454,8 +454,8 @@ let arrow = new THREE.ArrowHelper(
     new THREE.Vector3(0, 0, 0),
     1,
     blochPalette.stateVector,
-    0.2,
-    0.1
+    0.14,
+    0.075
 );
 
 scene.add(arrow);
@@ -882,6 +882,7 @@ function updateBloch(
         t = 0;
     } else {
         arrow.setDirection(targetDir);
+        updateStateEndPoint(targetDir);
 
         currentDir =
             targetDir.clone();
@@ -1033,6 +1034,7 @@ function animate() {
         );
 
         arrow.setDirection(newDir);
+        updateStateEndPoint(newDir);
 
         if (!isAnimating) {
             currentDir =
