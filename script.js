@@ -1657,9 +1657,9 @@ function createQSphereVisualizer(
 
     qCamera.up.set(0, 0, 1);
     qCamera.position.set(
-        1.8,
-        -1.8,
-        1.3
+        1.5,
+        -1.5,
+        1.1
     );
     qCamera.lookAt(0, 0, 0);
 
@@ -1676,8 +1676,8 @@ function createQSphereVisualizer(
     );
     
     qRenderer.setSize(
-        380,
-        380
+        500,
+        500    
     );
 
     document
