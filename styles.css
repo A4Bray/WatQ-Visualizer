@@ -589,5 +589,42 @@ body {
     #twoQubitPage #qSphere canvas {
         width: min(420px, 100%);
         height: auto;
-    }
+	}
+	/* Compact only the two-qubit sidebar */
+	#twoQubitPage .two-qubit-sidebar {
+		gap: 12px;
+	}
+
+	#twoQubitPage .two-qubit-sidebar .widget {
+		padding: 12px 14px;
+	}
+
+	#twoQubitPage .two-qubit-sidebar h3 {
+		margin: 12px 0 7px;
+	}
+
+	#twoQubitPage .two-qubit-sidebar h3:first-child {
+		margin-top: 0;
+	}
+
+	#twoQubitPage .two-qubit-sidebar p {
+		margin: 6px 0;
+	}
+
+	#twoQubitPage .two-qubit-controls button {
+		padding: 7px 11px;
+	}
+
+	#twoQubitPage .probability-row {
+		grid-template-columns: 100px minmax(0, 1fr);
+		gap: 10px;
+		margin: 5px 0;
+	}
+
+	#twoQubitPage .probability-row progress,
+	#twoQubitPage #entanglementBar {
+		width: 100%;
+		height: 16px;
+		
+	} 
 }
