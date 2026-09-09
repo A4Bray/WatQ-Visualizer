@@ -70,10 +70,10 @@ The project has no build step or framework. Three.js and OrbitControls are loade
 
 ```text
 WatQ-Visualizer/
-â”œâ”€â”€ index.html
-â”œâ”€â”€ styles.css
-â”œâ”€â”€ script.js
-â””â”€â”€ WATQ_logo_transparent.png
+index.html
+styles.css
+script.js
+WATQ_logo_transparent.png
 ```
 
 ## Purpose
