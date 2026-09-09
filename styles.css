@@ -25,7 +25,6 @@ h3 {
 }
 
 .developer-credit {
-    position: fixed;
     left: 12px;
     bottom: 8px;
     z-index: 10;
@@ -314,14 +313,16 @@ button:focus-visible {
     flex-wrap: nowrap;
 	
     align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 
-	gap: 8px;
-	padding: 12px 14px
+	min-height: 720px;
+	gap: 12px;
+	padding: 12px 14px;
 	animation-delay: 0.18s;
 }
 
 .bloch-card {
+	width: 100%;
     text-align: center;
 }
 
@@ -386,7 +387,7 @@ progress {
 	justify-content: space-between;
     align-items: center;
   
-    min-width: 0;
+    min-width: 720px;
     margin-top: 0;
 	
 	animation-delay: 0.25s;
@@ -584,6 +585,7 @@ body {
 	}
 
 	.bloch-pair {
+		min-height: 680px;
 		padding: 10px 14px;
 	}
 	
@@ -600,6 +602,7 @@ body {
 	}
 	
 	.q-sphere-card {
+		min-height: 720px
 		margin-top: 0;
 		padding: 10px 14px;
 	}
