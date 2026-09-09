@@ -1,58 +1,653 @@
+/* root for colour */
+:root {
+	--background-color: #000000;
+	--widget-color: rgba(17, 17, 17, 0.82);
+	--text-color: #ffffff;
+	--border-color: #3a3a3a;
+	--accent-color: #bb55ff;
+	--slider-color: #168cff;
+}
+
+* {
+	box-sizing: border-box;
+}
+/* title and header font */
+h1,
+h2,
+h3 {
+	font-family: "Source Serif 4", "Times New Roman", serif;
+	font-weight: 600;
+}
+
+#modeMenu h1 {
+    font-size: 48px;
+    letter-spacing: -0.5px;
+}
+
+.developer-credit {
+	position: fixed;
+    top: 16px;
+    right: 18px;
+	left: auto;
+	bottom: auto;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 0;
+
+    color: var(--text-color);
+    background: transparent;
+	border: none;
+	
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.developer-credit img {
+    width: 42px;
+    height: 42px;
+
+    object-fit: contain;
+    background: transparent;
+}
+
+.developer-credit div {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+	text-shadow: 0 1px 5px #000000;
+}
+
+.developer-credit span {
+    font-size: 9px;
+}
+
+.developer-credit strong {
+    font-size: 11px;
+    font-weight: 600;
+}
+/* general interface text */
+body,
+button {
+	font-family: "Inter", Arial, sans-serif;
+	font-weight: 500;
+}
+
+/* buttons */
+button {
+	appearance: none;
+	-webkit-appearance: none;
+	
+    padding: 9px 14px;
+
+    color: #ffffff;
+    background: #1c1c22;
+
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
+}
+
+button:hover {
+	color: #ffffff;
+    background: #30223a;
+    border-color: var(--accent-color);
+
+    box-shadow:
+        0 0 8px rgba(187, 85, 255, 0.25);
+
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Calculated single-qubit results */
+.single-qubit-controls span,
+#prob0,
+#prob1,
+#stateDisplay,
+#measurementResult {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 400;
+}
+
+/* Calculated two-qubit results */
+.probability-row span,
+#twoQubitStateDisplay,
+#twoQubitMeasurementResult,
+#correlationDisplay,
+#entanglementDisplay,
+#qubit0BlochStatus,
+#qubit1BlochStatus,
+#entanglementBeamLabel {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 400;
+}
+/* single qubit layout */
+.single-qubit-layout {
+	display: flex;
+	gap:  32px;
+	align-items: flex-start;
+}
+
+.single-qubit-controls {
+	flex: 0 0 420px;
+	padding: 28px;
+}
+
+.single-qubit-visual {
+	flex: 1;
+	min-width: 0;
+	min-height: 780px;
+	padding: 28px;
+	text-align: center;
+	position: relative;
+
+	animation-delay: 0.15s;
+}
+
+.single-qubit-controls h3 {
+    margin-top: 28px;
+}
+
+.single-qubit-controls h3:first-child {
+    margin-top: 0;
+}
+
+.single-qubit-controls input[type="range"] {
+    appearance: none;
+	-webkit-appearance: none;
+	width: 240px;
+    height: 26px;
+	background: transparent;
+	cursor: pointer;
+    vertical-align: middle;
+}
+
+	/* single qubit sliders */
+.single-qubit-controls input[type="range"]::-webkit-slider-runnable-track {
+	height: 7px;
+	background: #dddddd;
+	border-radius: 10px;
+}
+
+.single-qubit-controls input[type="range"]::-moz-range-track {
+	height: 7px;
+	background: #dddddd;
+	border-radius: 10px;
+}
+
+	/* Slider handle */
+.single-qubit-controls input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 19px;
+	height: 19px;
+	margin-top: -6px;
+	border: none;
+	border-radius: 50%;
+	background: var(--slider-color);
+	box-shadow: 0 0 8px rgba(22, 140, 255, 0.65);
+	transition:
+		transform 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+.single-qubit-controls input[type="range"]::-moz-range-thumb {
+	width: 19px;
+	height: 19px;
+	border: none;
+	border-radius: 50%;
+	background: var(--slider-color);
+	box-shadow: 0 0 8px rgba(22, 140, 255, 0.65);
+	transition:
+		transform 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+	/* Slider interaction */
+.single-qubit-controls input[type="range"]:hover::-webkit-slider-thumb,
+.single-qubit-controls input[type="range"]:active::-webkit-slider-thumb {
+	transform: scale(1.15);
+	box-shadow: 0 0 13px var(--accent-color);
+}
+
+.single-qubit-controls input[type="range"]:hover::-moz-range-thumb,
+.single-qubit-controls input[type="range"]:active::-moz-range-thumb {
+	transform: scale(1.15);
+	box-shadow: 0 0 13px var(--slider-color);
+}
+	/* single-qubit buttons */
+.single-qubit-controls button {
+    min-width: 52px;
+    min-height: 42px;
+    margin: 4px 2px;
+    padding: 10px 16px;
+}
+
+.single-qubit-controls button[onclick="measureQubit()"],
+.single-qubit-controls button[onclick="prepareZero()"] {
+    min-width: 125px;
+}
+
+.reset-view-button {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	z-index: 2;
+}
+	
+.single-probability-row {
+	display: grid;
+	grid-template-columns: 110px 1fr;
+	gap: 12px;
+	align-items: center;
+	margin: 12px 0;
+}
+
+.single-probability-row progress {
+	width: 100%;
+	height: 16px;
+}
+
+/* two qubit layout */
+	
 .two-qubit-layout {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 28px;
-            align-items: flex-start;
-        }
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-start;
+}
 
-        .bloch-pair {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            align-items: center;
-        }
+.two-qubit-sidebar {
+	display: flex;
+	flex: 0 0 360px;
+	flex-direction: column;
+	gap: 18px;
 
-        .bloch-card {
-            text-align: center;
-        }
+	animation-delay: 0.15s;
+}
 
-        .two-qubit-side-panel {
-            min-width: 330px;
-            max-width: 520px;
-        }
+.two-qubit-visuals {
+    display: grid;
+    grid-template-columns:
+        minmax(300px, 0.8fr)
+        minmax(500px, 1.2fr);
 
-        .probability-row {
-            display: grid;
-            grid-template-columns: 100px 220px;
-            gap: 12px;
-            align-items: center;
-            margin: 10px 0;
-        }
+    gap: 18px;
+    align-items: stretch;
+}
 
-        progress {
-            width: 220px;
-            height: 22px;
-        }
+.widget {
+	padding: 18px;
+	background: var(--widget-color);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
 
-        .entanglement-connection {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 120px;
-        }
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
 
-        #entanglementBeam {
-            width: 100px;
-            height: 8px;
-            border-radius: 5px;
-            background: #bb55ff;
-            box-shadow: 0 0 8px #bb55ff, 0 0 18px #bb55ff;
-            opacity: 0;
-            transform: scaleX(0);
-            transition: opacity 0.4s, transform 0.4s;
-        }
+	opacity: 0;
+	animation: widgetFadeIn 0.6s ease-out forwards;
+}
 
-        .q-sphere-card {
-            text-align: center;
-        }
+.bloch-pair {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+	
+    align-items: center;
+	justify-content: space-between;
+
+	min-height: 720px;
+	gap: 12px;
+	padding: 12px 14px;
+	animation-delay: 0.18s;
+}
+
+.bloch-card {
+	width: 100%;
+    text-align: center;
+}
+
+.two-qubit-side-panel {
+	min-width: 0;
+}
+
+.probability-row {
+    display: grid;
+    grid-template-columns: 100px 220px;
+    gap: 12px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+progress {
+    width: 220px;
+    height: 22px;
+}
+
+.entanglement-connection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 120px;
+}
+
+.entanglement-track {
+    position: relative;
+    width: 8px;
+    height: 65px;
+    border-radius: 5px;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(187, 85, 255, 0.35) 0 7px,
+        transparent 7px 12px
+    );
+}
+
+#entanglementBeam {
+	position: absolute;
+	inset: 0;
+
+	border-radius: inherit;
+	background: var(--accent-color);
+	box-shadow:
+		0 0 8px var(--accent-color),
+		0 0 18px var(--accent-color);
+	opacity: 0;
+	transform: scaleY(0);
+	transform-origin: center;
+	transition:
+		opacity 0.4s ease,
+		transform 0.4s ease;				 
+}
+
+.q-sphere-card {
+	display: flex;
+    flex-direction: column;
+	justify-content: space-between;
+    align-items: center;
+
+	width: 100%;
+    min-width: 0;
+    margin-top: 0;
+	
+	animation-delay: 0.25s;
+}
+
+#qSphere {
+	flex: 1;
+	align-items: center;
+}
+
+#qSphere canvas {
+	width: min(500px, 100%);
+	height: auto;
+}
+	
+/* html ids*/
+#bloch,
+#qubit0Bloch,
+#qubit1Bloch,
+#qSphere {
+	display: flex;
+	justify-content: center;
+}
+
+#singleQubitPage canvas,
+#twoQubitPage canvas {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+html, 
+body {
+	margin: 0;
+	min-height: 100%;
+}
+/* Web design */
+body {
+    color: var(--text-color);
+    background: var(--background-color);
+}
+
+#singleQubitPage,
+#twoQubitPage {
+	position: relative;
+	z-index: 1;
+
+	max-width: 1700px;
+	margin: 0 auto;
+	padding: 24px;
+
+	animation: pageFadeIn 0.5s ease-out;
+}
+
+#modeMenu {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+
+	min-height: 100vh;
+	overflow: hidden;
+	background: transparent;
+}
+
+#menuBackground {
+	position: fixed;
+	z-index: 0;
+	inset: 0;
+
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.menuContent {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+
+	animation: pageFadeIn 0.6s ease-out;
+}
+
+		
+.mode-button { 
+	min-width: 230px;
+	margin: 5px;
+	padding: 12px 18px;
+	
+	opacity: 0;
+	transform: translateY(12px);
+	animation: fadeInButton 0.8s ease-out forwards;
+}
+	
+.mode-button:nth-of-type(2) {
+	animation-delay: 0.2s;
+}
+	
+@keyframes fadeInButton {
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pageFadeIn {
+	from {
+	opacity: 0;
+	transform: translateY(10px);
+}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes widgetFadeIn {
+	from {
+	opacity: 0;
+	transform: translateY(16px);
+}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Mobile fitting */
+@media (max-width: 850px) {
+	.single-qubit-layout,
+	.two-qubit-layout {
+		flex-direction: column;
+	}
+
+	.single-qubit-controls,
+    .single-qubit-visual,
+    .two-qubit-sidebar,
+    .two-qubit-visuals {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+	.single-probability-row,
+    .probability-row {
+        grid-template-columns: 100px minmax(120px, 220px);
+    }
+}
+
+/* compact two-qubit layout on shorter desktop screens */
+@media (min-width: 851px) {
+	/* Main two-qubit desktop columns */
+	#twoQubitPage .two-qubit-layout {
+		display: grid;
+		grid-template-columns:
+			360px
+			minmax(0, 1fr);
+
+		gap: 18px;
+		align-items: stretch;
+	}
+
+	/* Compact left sidebar */
+	#twoQubitPage .two-qubit-sidebar {
+		gap: 12px;
+	}
+
+	#twoQubitPage .two-qubit-sidebar .widget {
+		padding: 12px 14px;
+	}
+
+	#twoQubitPage .two-qubit-sidebar h3 {
+		margin: 12px 0 7px;
+	}
+
+	#twoQubitPage .two-qubit-sidebar h3:first-child {
+		margin-top: 0;
+	}
+
+	#twoQubitPage .two-qubit-sidebar p {
+		margin: 6px 0;
+	}
+
+	#twoQubitPage .two-qubit-controls button {
+		padding: 7px 11px;
+	}
+
+	#twoQubitPage .probability-row {
+		grid-template-columns:
+			100px
+			minmax(0, 1fr);
+
+		gap: 10px;
+		margin: 5px 0;
+	}
+
+	#twoQubitPage .probability-row progress,
+	#twoQubitPage #entanglementBar {
+		width: 100%;
+		height: 16px;
+	}
+
+	/* Middle and right widgets */
+	#twoQubitPage .two-qubit-visuals {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			minmax(0, 1.15fr);
+
+		gap: 18px;
+		min-width: 0;
+		align-items: stretch;
+	}
+
+	/* Vertical reduced Bloch-sphere arrangement */
+	#twoQubitPage .bloch-pair {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto;
+
+		width: 100%;
+		height: auto;
+		min-width: 0;
+		min-height: 0;
+
+		justify-items: center;
+		align-content: space-between;
+
+		padding: 12px 14px;
+	}
+
+	#twoQubitPage #qubit0Bloch canvas,
+	#twoQubitPage #qubit1Bloch canvas {
+		width: clamp(150px, 18vh, 190px);
+		height: clamp(150px, 18vh, 190px);
+	}
+
+	#twoQubitPage .entanglement-connection {
+		min-height: 70px;
+	}
+
+	#twoQubitPage .entanglement-track {
+		height: 45px;
+	}
+
+	/* Match the Q-sphere card to the Bloch card */
+	#twoQubitPage .q-sphere-card {
+		width: 100%;
+		height: auto;
+		min-width: 0;
+		min-height: 0;
+		margin: 0;
+	}
+
+	#twoQubitPage #qSphere canvas {
+		width: min(420px, 100%);
+		height: auto;
+	}

@@ -1,5 +1,5 @@
 // =========================
-// PAGE NAVIGATION
+// MODE NAVIGATION
 // =========================
 function showMode(mode) {
     document.getElementById("modeMenu").style.display = "none";
@@ -16,8 +16,159 @@ function showMode(mode) {
 function showMenu() {
     document.getElementById("singleQubitPage").style.display = "none";
     document.getElementById("twoQubitPage").style.display = "none";
-    document.getElementById("modeMenu").style.display = "block";
+    document.getElementById("modeMenu").style.display = "grid";
 }
+
+// =========================
+// MENU BACKGROUND
+// =========================
+const menuCanvas = document.getElementById("menuBackground");
+
+const menuContext = menuCanvas.getContext("2d");
+
+const menuPointCount = 32;
+const menuConnectionDistance = 180;
+const menuPoints = [];
+
+let menuWidth;
+let menuHeight;
+
+// Use accent colour defined in .css
+const menuAccentColor = getComputedStyle(document.documentElement)
+                .getPropertyValue("--accent-color")
+                .trim() || "#bb55ff";
+
+function createMenuPoints() {
+    menuPoints.length = 0;
+
+    for (
+        let index = 0;
+        index < menuPointCount;
+        index++
+) {
+        menuPoints.push({
+            x: Math.random() * menuWidth,
+            y: Math.random() * menuHeight,
+
+            velocityX: (Math.random() - 0.5) * 0.35,
+            velocityY: (Math.random() - 0.5) * 0.35
+        });
+    }
+}
+                    
+function resizeMenuBackground() {
+    menuWidth = window.innerWidth;
+    menuHeight = window.innerHeight;
+
+    //limit pixel density
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+    menuCanvas.width = menuWidth * pixelRatio;
+    menuCanvas.height = menuHeight * pixelRatio;
+
+    menuContext.setTransform(
+            pixelRatio, 0, 0,
+            pixelRatio, 0, 0
+    );
+
+    createMenuPoints();
+}
+
+function animateMenuBackground() {
+    requestAnimationFrame(
+        animateMenuBackground
+        );
+
+    menuContext.clearRect(0, 0, menuWidth, menuHeight);
+    
+    //Have velocity for each point
+    for (let point of menuPoints) {
+        point.x += point.velocityX;
+        point.y += point.velocityY;
+
+        // Reverse horizontal direction upon edge
+        if (
+            point.x <= 0 || point.x >= menuWidth
+        ) {
+            point.velocityX *= -1;
+        }
+
+        // Reverse vertical direction upon edge
+        if (
+            point.y <= 0 || point.y >= menuHeight
+            ) {
+            point.velocityY *= -1;
+        }
+    }
+
+    // Connect points if distance is less than
+    for (
+        let first = 0;
+        first < menuPoints.length; 
+        first ++
+    ) {
+        for (
+            let second = first + 1;
+            second < menuPoints.length;
+            second++
+        ) {
+            const deltaX = menuPoints[first].x - menuPoints[second].x;
+            const deltaY = menuPoints[first].y - menuPoints[second].y;
+            const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+
+            if (
+                distance < menuConnectionDistance
+            ) {
+                menuContext.beginPath();
+
+                menuContext.moveTo(
+                    menuPoints[first].x,
+                    menuPoints[first].y
+                );
+
+                menuContext.lineTo(
+                    menuPoints[second].x,
+                    menuPoints[second].y
+                );
+
+                menuContext.strokeStyle = menuAccentColor;
+
+                //Closer points produce brighter connecting lines.
+                menuContext.globalAlpha = 0.22 * ( 1- distance/menuConnectionDistance);
+                menuContext.lineWidth = 1;
+                menuContext.stroke();
+            }
+        }
+    }
+
+    //Draw individual points
+    menuContext.globalAlpha = 0.7;
+
+    menuContext.fillStyle = menuAccentColor;
+    menuContext.shadowColor = menuAccentColor;
+    menuContext.shadowBlur = 5;
+    
+    for (let point of menuPoints) {
+        menuContext.beginPath();
+
+        menuContext.arc(
+            point.x, point.y,
+            1.5, 0, 2 * Math.PI
+        );
+
+        menuContext.fill();
+    }   
+    //restore full opacity for animation
+    menuContext.globalAlpha = 1;
+    menuContext.shadowBlur = 0;
+}
+
+resizeMenuBackground();
+
+window.addEventListener(
+    "resize",
+    resizeMenuBackground
+);
 
 // =========================
 // COMPLEX-NUMBER SETUP
@@ -119,20 +270,50 @@ let t = 0;
 let scene = new THREE.Scene();
 
 let camera = new THREE.PerspectiveCamera(
-    75,
+    55,
     1,
     0.1,
     1000
 );
 
-camera.position.z = 3;
+// Default three-quarter camera view
+const defaultCameraPosition =
+    new THREE.Vector3(
+        2.163,
+        1.449,
+        1.701
+    );
 
+// Treat the Bloch sphere's z-axis
+// as the vertical direction.
+camera.up.set(
+    0,
+    0,
+    1
+);
+
+camera.position.copy(
+    defaultCameraPosition
+);
+
+camera.lookAt(
+    0,
+    0,
+    0
+);
+
+// render the image and color code
 let renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
+    alpha: true
 });
 
-renderer.setSize(500, 500);
-renderer.setClearColor(0x111111);
+renderer.setClearColor(0x000000, 0);
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio || 1, 2)
+);
+
+renderer.setSize(720, 720);
 
 document
     .getElementById("bloch")
@@ -146,8 +327,20 @@ let controls = new THREE.OrbitControls(
     renderer.domElement
 );
 
+controls.enablePan = false;
+
+controls.minDistance = 2.4;
+controls.maxDistance = 4.5;
+
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+
+controls.rotateSpeed = 0.65;
+controls.zoomSpeed = 0.8;
+
 function resetView() {
-    camera.position.set(0, 0, 3);
+    camera.up.set(0, 0, 1);
+    camera.position.copy(defaultCameraPosition);
     controls.target.set(0, 0, 0);
     controls.update();
 }
@@ -155,17 +348,110 @@ function resetView() {
 // =========================
 // MAIN BLOCH SPHERE
 // =========================
+// Sphere Palette
+const blochPalette = {
+    sphere: 0x17324d,
+    stateVector: 0x4cc9ff,
+    primaryGuide: 0x8f6cff,
+    secondaryGuide: 0x6e8295,
+    label: "#eaf4ff"
+};
+
 let sphere = new THREE.Mesh(
     new THREE.SphereGeometry(1, 64, 64),
-    new THREE.MeshPhongMaterial({
-        color: 0x3399ff,
+    new THREE.MeshPhysicalMaterial({
+        color: blochPalette.sphere,
         transparent: true,
-        opacity: 0.25
+        opacity: 0.22,
+        roughness: 0.65,
+        metalness: 0.05,
+        clearcoat: 0.15,
+        clearcoatRoughness: 0.45
     })
 );
 
 scene.add(sphere);
 
+// =========================
+// FRESNEL RIM GLOW
+// =========================
+let fresnelMaterial =
+    new THREE.ShaderMaterial({
+        uniforms: {
+            glowColor: {
+                value: new THREE.Color(blochPalette.primaryGuide)
+            },
+                fresnelPower: {value: 3.0}, glowStrength: {value: 0.45}
+        },
+        
+
+    vertexShader: 
+            `varying float vFresnel;
+
+            uniform float fresnelPower;
+
+            void main() {
+                vec4 viewPosition =
+                    modelViewMatrix *
+                    vec4(position, 1.0);
+
+                vec3 viewNormal =
+                    normalize(
+                        normalMatrix * normal
+                    );
+
+                vec3 viewDirection =
+                    normalize(
+                        -viewPosition.xyz
+                    );
+
+                vFresnel = pow(
+                    1.0 - max(
+                        dot(
+                            viewNormal,
+                            viewDirection
+                        ),
+                        0.0
+                    ),
+                    fresnelPower
+                );
+
+                gl_Position =
+                    projectionMatrix *
+                    viewPosition;
+            }
+        `,
+
+        fragmentShader: 
+            `varying float vFresnel;
+
+            uniform vec3 glowColor;
+            uniform float glowStrength;
+
+            void main() {
+                gl_FragColor = vec4(
+                    glowColor,
+                    vFresnel * glowStrength
+                );
+            }
+        `,
+
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        side: THREE.FrontSide
+    });
+
+let fresnelSphere =
+    new THREE.Mesh(
+        sphere.geometry.clone(),
+        fresnelMaterial
+    );
+
+fresnelSphere.scale.setScalar(1.015);
+
+scene.add(fresnelSphere);
+                                                    
 // Lighting
 let light = new THREE.PointLight(0xffffff, 1);
 
@@ -180,7 +466,15 @@ let ambientLight = new THREE.AmbientLight(
 scene.add(ambientLight);
 
 // Coordinate axes
-scene.add(new THREE.AxesHelper(2));
+let axes = new THREE.AxesHelper(1.15);
+axes.material.transparent = true;
+axes.material.opacity= 0.4;
+
+axes.material.depthTest = false;
+axes.material.depthWrite = false;
+
+axes.renderOrder = 2;
+scene.add(axes);
 
 // =========================
 // STATE-VECTOR ARROW
@@ -189,51 +483,145 @@ let arrow = new THREE.ArrowHelper(
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(0, 0, 0),
     1,
-    0xff0000,
-    0.2,
-    0.1
+    blochPalette.stateVector,
+    0.14,
+    0.075
 );
 
 scene.add(arrow);
 
-// =========================
-// BLOCH-SPHERE LABELS
-// =========================
-function createLabel(text, pos) {
-    let canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
+// add an endpoint to the arrow
+let stateEndPoint =
+    new THREE.Group();
 
-    canvas.width = 256;
-    canvas.height = 128;
-
-    ctx.fillStyle = "white";
-    ctx.font = "40px Arial";
-    ctx.fillText(text, 50, 70);
-
-    let texture = new THREE.CanvasTexture(canvas);
-
-    let sprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-            map: texture
+let endPointMarker =
+    new THREE.Mesh (
+        new THREE.SphereGeometry(
+            0.045,
+            24,
+            24
+        ),
+        new THREE.MeshBasicMaterial({
+            color: blochPalette.stateVector
         })
     );
 
-    sprite.position.copy(pos);
-    sprite.scale.set(0.5, 0.25, 1);
+let endPointGlow =
+    new THREE.Mesh(
+        new THREE.SphereGeometry(
+            0.10,
+            24,
+            24
+        ),
+        new THREE.MeshBasicMaterial({
+            color: blochPalette.stateVector,
+            transparent: true,
+            opacity: 0.18,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        })
+    );
 
-    scene.add(sprite);
+stateEndPoint.add(
+    endPointMarker,
+    endPointGlow
+);
+
+scene.add(stateEndPoint);
+
+function updateStateEndPoint(
+    direction
+) {
+    stateEndPoint.position.copy(
+        direction
+            .clone()
+            .normalize()
+    );
 }
 
-createLabel(
-    "|0⟩",
-    new THREE.Vector3(0, 0, 1.2)
-);
+updateStateEndPoint(currentDir);
 
-createLabel(
-    "|1⟩",
-    new THREE.Vector3(0, 0, -1.2)
-);
+// =========================
+// BLOCH-SPHERE LABELS
+// =========================
+const blochLabelStyle = {
+    font: '600 72px "Times New Roman", serif',
+    fillStyle: blochPalette.label,
+    textAlign: "center",
+    textBaseline: "middle", 
+    shadowColor: "rgba(76, 201, 255, 0.45)",
+    shadowBlur: 10
+};
 
+function createLabel(text, pos) {
+
+    let canvas = 
+        document.createElement("canvas");
+    let context =
+        canvas.getContext("2d");
+
+    // Larger canvas = sharper text
+    canvas.width = 512;
+    canvas.height = 256;
+
+    context.clearRect(
+        0, 0,
+        canvas.width,
+        canvas.height
+    );
+
+    // Apply all label appearances
+    Object.assign(context, blochLabelStyle);
+
+    context.fillText(
+        text,
+        canvas.width / 2,
+        canvas.height / 2
+    );
+
+    let texture = 
+        new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+
+    let material = 
+        new THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            opacity: 0.9,
+            depthWrite: false
+        });
+
+    let label = 
+        new THREE.Sprite(material);
+    label.position.copy(pos);
+    label.scale.set(0.42, 0.21, 1);
+
+    scene.add(label);
+
+    return label;
+}
+        
+// Place computational-basis labels outside two poles
+let zeroLabel =
+    createLabel(
+        "|0⟩",
+        new THREE.Vector3(
+            0,
+            0,
+            1.24
+        )
+    );
+
+let oneLabel =
+    createLabel(
+        "|1⟩",
+        new THREE.Vector3(
+            0,
+            0,
+            -1.24
+        )
+    );
+            
 // =========================
 // SINGLE-QUBIT GATE LOGIC
 // =========================
@@ -324,6 +712,219 @@ function prepareZero() {
 
     updateFromState();
 }
+// =========================
+// SLIDER TRANSITION
+// =========================
+const stateTransitionDuration = 350;
+let sliderAnimationFrame = null;
+
+function animateSliders(
+    targetTheta,
+    targetPhi
+) {
+    if (sliderAnimationFrame !== null) {
+        cancelAnimationFrame(
+            sliderAnimationFrame
+        );
+    }
+
+    let startingTheta = parseFloat(thetaSlider.value);
+    let startingPhi = parseFloat(phiSlider.value);
+
+    let startingTime = performance.now();
+    let duration = stateTransitionDuration;
+
+    function moveSliders(currentTime) {
+        let progress = Math.min(
+                (currentTime - startingTime) / duration, 
+            1
+        );
+
+        // Smooth acceleration and deceleration
+
+        let easedProgress = 
+            progress < 0.5 
+                ? 2 * progress ** 2
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        let displayedTheta = 
+            startingTheta + (targetTheta - startingTheta) * easedProgress;
+        let displayedPhi =
+            startingPhi + (targetPhi - startingPhi) * easedProgress;
+
+        thetaSlider.value = displayedTheta;
+        phiSlider.value = displayedPhi;
+
+        document.getElementById("thetaVal").innerText = displayedTheta.toFixed(2);
+        document.getElementById("phiVal").innerText = displayedPhi.toFixed(2);
+
+        if (progress < 1) {
+            sliderAnimationFrame = 
+                requestAnimationFrame(moveSliders
+            );
+        } else {
+            sliderAnimationFrame = null;
+        }
+    }
+
+    sliderAnimationFrame = requestAnimationFrame(moveSliders);
+}
+
+// =========================
+// PROBABILITY BAR TRANSITIONS
+// =========================
+let probabilityAnimationFrame = null;
+
+//for single qubit
+function displaySingleProbabilities(p0, p1) {
+    document.getElementById(
+        "prob0"
+    ).innerText =
+        "P(0): " +
+        p0.toFixed(3);
+        
+    document.getElementById(
+        "prob1"
+    ).innerText =
+        "P(1): " +
+        p1.toFixed(3);
+
+    document.getElementById(
+        "singleBar0"
+    ).value = p0;
+
+    document.getElementById(
+        "singleBar1"
+    ).value = p1;
+}
+
+function animateSingleProbabilities(
+    targetP0, targetP1
+) {
+    if (
+        probabilityAnimationFrame !== null
+    ) {
+        cancelAnimationFrame(probabilityAnimationFrame);
+    }
+        
+    let startingP0 = 
+        Number(document.getElementById("singleBar0").value
+        );
+
+    let startingP1 =
+        Number(document.getElementById("singleBar1").value
+        );
+
+    let startingTime = performance.now();
+
+    function moveProbabilities(currentTime) {
+        let progress =
+            Math.min((currentTime - startingTime) / stateTransitionDuration, 1
+            );
+
+        let easedProgress = 
+            progress < 0.5 
+                ? 2 * progress ** 2
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        let displayedP0 =
+            startingP0 + (targetP0 - startingP0) * easedProgress;
+
+        let displayedP1 = 
+            startingP1 + (targetP1 - startingP1) * easedProgress;
+
+        displaySingleProbabilities(displayedP0, displayedP1);
+
+        if (progress < 1) {
+            probabilityAnimationFrame = 
+                requestAnimationFrame(moveProbabilities
+            );
+        } else {
+            probabilityAnimationFrame = null;
+        }
+    }
+
+    probabilityAnimationFrame = requestAnimationFrame(moveProbabilities);
+}
+
+// For two qubits
+const twoQubitBasisLabels = ["00", "01", "10", "11"]
+const twoQubitProbabilityIds = ["prob00", "prob01", "prob10", "prob11"]
+const twoQubitProbabilityBarIds = ["bar00", "bar01", "bar10", "bar11"]
+
+let twoQubitProbabilityAnimationFrame = null;
+
+function displayTwoQubitProbabilities(probabilities) {
+    for (
+        let index = 0;
+        index < probabilities.length;
+        index++
+    ) {
+        document.getElementById(twoQubitProbabilityIds[index]
+        ).innerText = 
+            "P(" +
+            twoQubitBasisLabels[index] + 
+            "): " +
+            probabilities[index].toFixed(3);
+
+        document.getElementById(twoQubitProbabilityBarIds[index]
+        ).value =
+            probabilities[index];
+    }
+}
+
+function animateTwoQubitProbabilities(targetProbabilities) {
+    if (
+        twoQubitProbabilityAnimationFrame !== null
+    ) {
+        cancelAnimationFrame(twoQubitProbabilityAnimationFrame);
+    }
+
+    let startingProbabilities = 
+        twoQubitProbabilityBarIds.map(
+            function(barId) {
+                return Number(document.getElementById(barId).value
+                );
+            }
+        );
+
+    let startingTime = performance.now();
+
+    function moveProbabilities(currentTime) {
+        let progress =
+            Math.min((currentTime - startingTime) / stateTransitionDuration, 1
+            );
+
+        let easedProgress = 
+            progress < 0.5 
+                ? 2 * progress ** 2
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        let displayedProbabilities =
+            targetProbabilities.map(
+                function (targetProbability, index) {
+                    return (
+                        startingProbabilities[index] + 
+                        (targetProbability - startingProbabilities[index]) * easedProgress
+                    );
+                }
+            );
+
+        displayTwoQubitProbabilities(displayedProbabilities);
+
+        if (
+            progress < 1
+        ) {
+            twoQubitProbabilityAnimationFrame =
+                requestAnimationFrame(moveProbabilities);
+        } else {
+            twoQubitProbabilityAnimationFrame= null;
+        }
+    }
+
+    twoQubitProbabilityAnimationFrame =
+        requestAnimationFrame(moveProbabilities);
+}
 
 // =========================
 // STATE TO BLOCH ANGLES
@@ -350,18 +951,8 @@ function updateFromState() {
     phi =
         (phi + 2 * Math.PI) %
         (2 * Math.PI);
-
-    thetaSlider.value = theta;
-    phiSlider.value = phi;
-
-    document.getElementById(
-        "thetaVal"
-    ).innerText = theta.toFixed(2);
-
-    document.getElementById(
-        "phiVal"
-    ).innerText = phi.toFixed(2);
-
+    
+    animateSliders(theta, phi);
     updateStateDisplay();
     updateBloch(theta, phi, true);
 }
@@ -369,48 +960,144 @@ function updateFromState() {
 // =========================
 // BLOCH-SPHERE GUIDES
 // =========================
-let ring = new THREE.Mesh(
-    new THREE.RingGeometry(
-        1,
-        1.01,
-        64
-    ),
-    new THREE.MeshBasicMaterial({
-        color: 0xff00ff,
-        side: THREE.DoubleSide
-    })
-);
-
-ring.rotation.x = Math.PI / 2;
-scene.add(ring);
-
-let arcPoints = [];
-
-for (
-    let angle = 0;
-    angle <= Math.PI;
-    angle += 0.05
+function createCircleGuide(
+    pointFunction,
+    color,
+    opacity
 ) {
-    arcPoints.push(
-        new THREE.Vector3(
-            Math.sin(angle),
-            0,
-            Math.cos(angle)
-        )
+    let points = [];
+
+    for (
+        let index = 0;
+        index < 128;
+        index ++
+    ) {
+        let angle =
+            (index / 128) * 2 * Math.PI;
+        
+        points.push(
+            pointFunction(angle)
+        );
+    }
+
+    let geometry =
+        new THREE.BufferGeometry()
+            .setFromPoints(points);
+
+    let material =
+        new THREE.LineBasicMaterial({
+            color: color,
+            transparent: true,
+            opacity: opacity,
+            depthWrite: false
+        });
+
+    return new THREE.LineLoop(
+        geometry,
+        material
     );
 }
 
-let arc = new THREE.Line(
-    new THREE.BufferGeometry().setFromPoints(
-        arcPoints
-    ),
-    new THREE.LineBasicMaterial({
-        color: 0xffff00
-    })
-);
+let equatorGuide =
+    createCircleGuide(
+        function (angle) {
+            return new THREE.Vector3(
+                1.005 * Math.cos(angle), 1.005 * Math.sin(angle), 0 
+            );
+        },
+        blochPalette.primaryGuide,
+        0.55
+    );
 
-scene.add(arc);
+scene.add(equatorGuide);        
 
+// =========================
+// THETA & PHI GUIDES
+// =========================
+let thetaGuide =
+    new THREE.Line(
+        new THREE.BufferGeometry(),
+        new THREE.LineBasicMaterial({
+            color: blochPalette.primaryGuide,
+            transparent: true,
+            opacity: 0.8,
+            depthTest: false,
+            depthWrite: false
+        })
+    );
+
+let phiGuide =
+    new THREE.Line(
+        new THREE.BufferGeometry(),
+        new THREE.LineBasicMaterial({
+            color: blochPalette.stateVector,
+            transparent: true,
+            opacity: 0.65,
+            depthTest: false,
+            depthWrite: false
+        })
+    );
+
+thetaGuide.renderOrder = 3;
+phiGuide.renderOrder = 3;
+
+scene.add(thetaGuide, phiGuide);
+
+function updateAngleGuides(
+    theta,
+    phi
+) {
+    let thetaPoints = [];
+    let phiPoints = [];
+
+    let thetaRadius = 0.48;
+    let phiRadius = 0.48;
+    let segmentCount = 32;
+
+    // Thetra runs from positive z-axis, towards current statevector
+    for (
+        let index = 0;
+        index <= segmentCount;
+        index++
+    ) {
+        let angle = theta * (index / segmentCount);
+
+        thetaPoints.push(
+            new THREE.Vector3(
+                thetaRadius * Math.sin(angle) * Math.cos(phi),
+                thetaRadius * Math.sin(angle) * Math.sin(phi),
+                thetaRadius * Math.cos(angle)
+            )
+
+        );
+    }
+
+    //phi runs around the equatorial
+
+    for (
+        let index = 0;
+        index <= segmentCount;
+        index++
+    ) {
+        let angle = phi * (index / segmentCount);
+
+        phiPoints.push(
+            new THREE.Vector3(
+                phiRadius * Math.cos(angle),
+                phiRadius * Math.sin(angle),
+                0
+            )
+        );
+    }
+
+    thetaGuide.geometry.setFromPoints(thetaPoints);
+    phiGuide.geometry.setFromPoints(phiPoints);
+
+    // Phi has no physical meaning at either pole
+    phiGuide.visible =
+        Math.sin(theta) > 0.01 &&
+        phi > 0.01;
+}
 // =========================
 // SPHERICAL INTERPOLATION
 // =========================
@@ -512,7 +1199,9 @@ function updateBloch(
         t = 0;
     } else {
         arrow.setDirection(targetDir);
-
+        updateStateEndPoint(targetDir);
+        updateAngleGuides(theta, phi);
+        
         currentDir =
             targetDir.clone();
 
@@ -530,19 +1219,21 @@ function updateBloch(
             Math.sin(theta / 2),
             2
         );
+    
+    if (shouldAnimate) {
+        isAnimating = true
+        animateSingleProbabilities(p0, p1);
+    } else {
+        if ( 
+            probabilityAnimationFrame !== null
+        ) {
+            cancelAnimationFrame(probabilityAnimationFrame);
+            probabilityAnimationFrame = null;
+        }
 
-    document.getElementById(
-        "prob0"
-    ).innerText =
-        "P(0): " +
-        p0.toFixed(3);
-
-    document.getElementById(
-        "prob1"
-    ).innerText =
-        "P(1): " +
-        p1.toFixed(3);
-
+        displaySingleProbabilities(p0, p1);
+    }
+    
     updateStateDisplay();
 }
 
@@ -647,7 +1338,7 @@ function animate() {
             t = 1;
             isAnimating = false;
         }
-
+        
         let newDir = slerpVector(
             currentDir,
             targetDir,
@@ -655,32 +1346,62 @@ function animate() {
         );
 
         arrow.setDirection(newDir);
+        updateStateEndPoint(newDir);
 
+        let dTheta = 
+            Math.acos(
+                Math.max(-1, Math.min(1, newDir.z))
+            );
+
+        let dPhi =
+            Math.atan2(
+                newDir.y, newDir.x
+            );
+        
+        dPhi =
+            (dPhi+ 2 * Math.PI) % (2 * Math.PI);
+
+        updateAngleGuides(dTheta, dPhi);
+        
         if (!isAnimating) {
             currentDir =
                 targetDir.clone();
         }
     }
 
+    let endPointPulse =
+        isAnimating
+            ? 1 + 0.15 * Math.sin(Math.PI * t)
+            : 1;
+
+    stateEndPoint.scale.setScalar(endPointPulse);
+        
+    controls.update();
+    
     renderer.render(
         scene,
         camera
     );
-
+    
+    qubit0Visualizer.controls.update();
     qubit0Visualizer.renderer.render(
         qubit0Visualizer.scene,
         qubit0Visualizer.camera
     );
-
+    
+    qubit1Visualizer.controls.update();
     qubit1Visualizer.renderer.render(
         qubit1Visualizer.scene,
         qubit1Visualizer.camera
     );
 
+    qSphereVisualizer.controls.update();
     qSphereVisualizer.renderer.render(
         qSphereVisualizer.scene,
         qSphereVisualizer.camera
     );
+
+
 }
 
 // =========================
@@ -705,16 +1426,17 @@ function createReducedBlochVisualizer(
 
     let blochRenderer =
         new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
+            alpha: true
         });
 
-    blochRenderer.setSize(
-        320,
-        320
+    blochRenderer.setClearColor(
+        0x000000, 0
     );
 
-    blochRenderer.setClearColor(
-        0x111111
+    blochRenderer.setSize(
+        190,
+        190
     );
 
     document
@@ -729,21 +1451,31 @@ function createReducedBlochVisualizer(
             blochRenderer.domElement
         );
 
-    let blochSphere =
-        new THREE.Mesh(
-            new THREE.SphereGeometry(
-                1,
-                48,
-                48
-            ),
-            new THREE.MeshPhongMaterial({
-                color: 0x3399ff,
-                transparent: true,
-                opacity: 0.25
-            })
-        );
+    // Reduced-sphere camera controls
+    blochControls.enablePan = false;
+    blochControls.enableZoom = false;
+    // Prevent extreme vertical rotation
+    blochControls.minPolarAngle = Math.PI * 0.2;
+    blochControls.maxPolarAngle = Math.PI * 0.8;
 
-    blochScene.add(blochSphere);
+    // Make rotation feel smoother
+    blochControls.enableDamping = true;
+    blochControls.dampingFactor = 0.08;
+    
+    let blochSphere =
+        sphere.clone()
+
+    let reducedFresnelSphere = 
+        fresnelSphere.clone()
+
+    let reducedEquatorGuide =
+        equatorGuide.clone();
+
+    blochScene.add(
+        blochSphere,
+        reducedFresnelSphere,
+        reducedEquatorGuide
+    );
 
     let pointLight =
         new THREE.PointLight(
@@ -764,10 +1496,6 @@ function createReducedBlochVisualizer(
             0xffffff,
             0.4
         )
-    );
-
-    blochScene.add(
-        new THREE.AxesHelper(1.4)
     );
 
     let blochArrow =
@@ -793,7 +1521,9 @@ function createReducedBlochVisualizer(
                 20
             ),
             new THREE.MeshBasicMaterial({
-                color: 0xffffff
+                color: 0xd6a8ff,
+                transparent: true,
+                opacity: 0.55
             })
         );
 
@@ -925,22 +1655,29 @@ function createQSphereVisualizer(
             1000
         );
 
-    qCamera.position.z = 3;
+    qCamera.up.set(0, 0, 1);
+    qCamera.position.set(
+        1.5,
+        -1.5,
+        1.1
+    );
+    qCamera.lookAt(0, 0, 0);
 
     // Converts the Three.js scene into
     // pixels on a canvas.
     let qRenderer =
         new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
+            alpha: true
         });
 
-    qRenderer.setSize(
-        350,
-        350
-    );
-
     qRenderer.setClearColor(
-        0x111111
+        0x000000, 0
+    );
+    
+    qRenderer.setSize(
+        500,
+        500    
     );
 
     document
@@ -954,7 +1691,15 @@ function createQSphereVisualizer(
             qCamera,
             qRenderer.domElement
         );
+    qControls.enableZoom = false;
+    qControls.enablePan = false;
+    qControls.enableDamping = true;
+    qControls.dampingFactor = 0.08;
+    qControls.minPolarAngle = Math.PI * 0.2;
+    qControls.maxPolarAngle = Math.PI * 0.8;
 
+
+    
     // Mesh = geometry + material.
     let qSphereMesh =
         new THREE.Mesh(
@@ -963,15 +1708,23 @@ function createQSphereVisualizer(
                 48,
                 48
             ),
-            new THREE.MeshPhongMaterial({
-                color: 0x7744cc,
+            new THREE.MeshPhysicalMaterial({
+                color: blochPalette.sphere,
                 transparent: true,
-                opacity: 0.18
+                opacity: 0.22,
+                roughness: 0.55,
+                metalness: 0.05,
+                clearcoat: 0.35,
+                side: THREE.DoubleSide,
+                depthWrite: false
             })
         );
 
     qScene.add(qSphereMesh);
 
+    let qFresnelSphere = fresnelSphere.clone();
+    qScene.add(qFresnelSphere);
+    
     let equator =
         new THREE.Mesh(
             new THREE.RingGeometry(
@@ -980,8 +1733,11 @@ function createQSphereVisualizer(
                 64
             ),
             new THREE.MeshBasicMaterial({
-                color: 0x888888,
-                side: THREE.DoubleSide
+                color: blochPalette.primaryGuide,
+                transparent: true,
+                opacity: 0.45,
+                side: THREE.DoubleSide,
+                depthWrite: false
             })
         );
 
@@ -1061,7 +1817,7 @@ function createQSphereMarkers() {
                     24
                 ),
                 new THREE.MeshBasicMaterial({
-                    color: 0xff0000
+                    color: blochPalette.stateVector
                 })
             );
 
@@ -1093,7 +1849,7 @@ function createQSphereMarkers() {
                         basisState.position
                     ]),
                 new THREE.LineBasicMaterial({
-                    color: 0xff0000,
+                    color: blochPalette.stateVector,
                     transparent: true,
                     opacity: 0
                 })
@@ -1134,13 +1890,13 @@ function phaseToColor(
         (2 * Math.PI);
 
     let hue =
-        normalizedPhase /
-        (2 * Math.PI);
+        (normalizedPhase /
+        (2 * Math.PI) + 0.55) % 1;
 
     return new THREE.Color().setHSL(
         hue,
-        1,
-        0.5
+        0.85,
+        0.6
     );
 }
 
@@ -1587,29 +2343,8 @@ function describeBlochLength(length) {
 // =========================
 // TWO-QUBIT DISPLAY
 // =========================
-function updateTwoQubitDisplay() {
+function updateTwoQubitDisplay(shouldAnimate = true) {
     normalizeTwoQubitState();
-
-    let basisLabels = [
-        "00",
-        "01",
-        "10",
-        "11"
-    ];
-
-    let probabilityIds = [
-        "prob00",
-        "prob01",
-        "prob10",
-        "prob11"
-    ];
-
-    let probabilityBarIds = [
-        "bar00",
-        "bar01",
-        "bar10",
-        "bar11"
-    ];
 
     let probabilities = [];
     let stateTerms = [];
@@ -1629,18 +2364,6 @@ function updateTwoQubitDisplay() {
             probability
         );
 
-        document.getElementById(
-            probabilityIds[index]
-        ).innerText =
-            "P(" +
-            basisLabels[index] +
-            "): " +
-            probability.toFixed(3);
-
-        document.getElementById(
-            probabilityBarIds[index]
-        ).value = probability;
-
         if (
             magnitude(amplitude) >
             0.000001
@@ -1649,12 +2372,27 @@ function updateTwoQubitDisplay() {
                 "(" +
                 formatComplex(amplitude) +
                 ")|" +
-                basisLabels[index] +
+                twoQubitBasisLabels[index] +
                 "⟩"
             );
         }
     }
 
+    if (
+        shouldAnimate
+    ) {
+    animateTwoQubitProbabilities(probabilities);
+    } else {
+        if (
+            twoQubitProbabilityAnimationFrame !== null
+    ) {
+        cancelAnimationFrame(twoQubitProbabilityAnimationFrame);
+        twoQubitProbabilityAnimationFrame = null;
+    }
+        
+    displayTwoQubitProbabilities(probabilities);
+}
+    
     document.getElementById(
         "twoQubitStateDisplay"
     ).innerText =
@@ -1767,7 +2505,7 @@ function updateTwoQubitDisplay() {
         concurrence;
 
     beam.style.transform =
-        "scaleX(" +
+        "scaleY(" +
         concurrence +
         ")";
 
@@ -1793,8 +2531,13 @@ function updateTwoQubitDisplay() {
 }
 
 // Initialize the two-qubit displays.
-updateTwoQubitDisplay();
+updateTwoQubitDisplay(false);
 
 // Begin rendering after all scenes and
 // visualizers have been created.
+    
+// =========================
+// ANIMATIONS
+// =========================
 animate();
+animateMenuBackground();
