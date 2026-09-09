@@ -541,53 +541,72 @@ body {
     }
 }
 
-/* compact two-qubit layout on shorter desktop screens */
-@media (min-width: 851px) {
-    #twoQubitPage .bloch-pair {
+    #twoQubitPage .probability-row progress {
+        width: 100%;
+    }
+
+    #twoQubitPage .two-qubit-visuals {
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
+        grid-template-columns:
+            minmax(280px, 0.75fr)
+            minmax(430px, 1.25fr);
 
-        justify-items: center;
-        align-content: space-between;
+        gap: 16px;
+        min-width: 0;
+        align-items: start;
+    }
 
-        height: clamp(
-            600px,
-            calc(100vh - 155px),
-            700px
-        );
+    #twoQubitPage .bloch-pair {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
 
+        justify-content: space-between;
+        align-items: center;
+
+        height: 650px;
         min-height: 0;
-        padding: 12px 14px;
+        padding: 10px 12px;
+    }
+
+    #twoQubitPage .bloch-card {
+        width: 100%;
+        text-align: center;
+    }
+
+    #twoQubitPage .bloch-card h3,
+    #twoQubitPage .bloch-card p {
+        margin: 4px 0;
     }
 
     #twoQubitPage #qubit0Bloch canvas,
     #twoQubitPage #qubit1Bloch canvas {
-        width: clamp(150px, 18vh, 190px);
-        height: clamp(150px, 18vh, 190px);
+        width: 190px;
+        height: 190px;
     }
 
     #twoQubitPage .entanglement-connection {
+        min-width: 0;
         min-height: 70px;
     }
 
     #twoQubitPage .entanglement-track {
-        height: 45px;
+        height: 42px;
     }
 
     #twoQubitPage .q-sphere-card {
-        height: clamp(
-            600px,
-            calc(100vh - 155px),
-            700px
-        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
 
+        height: 650px;
         min-height: 0;
+        margin-top: 0;
     }
 
     #twoQubitPage #qSphere canvas {
-        width: min(420px, 100%);
+        width: min(430px, 100%);
         height: auto;
     }
 }
-	
