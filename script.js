@@ -2505,7 +2505,7 @@ function updateTwoQubitDisplay(shouldAnimate = true) {
         concurrence;
 
     beam.style.transform =
-        "scaleX(" +
+        "scaleY(" +
         concurrence +
         ")";
 
