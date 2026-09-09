@@ -1435,8 +1435,8 @@ function createReducedBlochVisualizer(
     );
 
     blochRenderer.setSize(
-        320,
-        320
+        190,
+        190
     );
 
     document
