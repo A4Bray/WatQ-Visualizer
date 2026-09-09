@@ -278,8 +278,13 @@ button:focus-visible {
 }
 
 .two-qubit-visuals {
-	flex: 1 1 700px;
-	min-width: 0;
+    display: grid;
+    grid-template-columns:
+        minmax(300px, 0.8fr)
+        minmax(500px, 1.2fr);
+
+    gap: 18px;
+    align-items: stretch;
 }
 
 .widget {
@@ -297,11 +302,14 @@ button:focus-visible {
 
 .bloch-pair {
     display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
+    flex-wrap: column;
+    flex-wrap: nowrap;
+	
     align-items: center;
 	justify-content: center;
 
+	gap: 8px;
+	padding: 12px 14px
 	animation-delay: 0.18s;
 }
 
@@ -336,12 +344,12 @@ progress {
 
 .entanglement-track {
     position: relative;
-    width: 100px;
-    height: 8px;
+    width: 8px;
+    height: 65px;
     border-radius: 5px;
 
     background: repeating-linear-gradient(
-        to right,
+        to bottom,
         rgba(187, 85, 255, 0.35) 0 7px,
         transparent 7px 12px
     );
@@ -357,7 +365,7 @@ progress {
 		0 0 8px var(--accent-color),
 		0 0 18px var(--accent-color);
 	opacity: 0;
-	transform: scaleX(0);
+	transform: scaleY(0);
 	transform-origin: center;
 	transition:
 		opacity 0.4s ease,
@@ -581,7 +589,7 @@ body {
 	#qubit0Bloch canvas,
 	#qubit1Bloch canvas {
 		width: 220px;
-		height: auto;
+		height: 220px;
 	}
 
 	#qSphere canvas {
