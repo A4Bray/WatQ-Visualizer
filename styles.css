@@ -32,18 +32,16 @@ h3 {
 
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
 
-    padding: 8px 12px;
+    padding: 0;
 
     color: var(--text-color);
-    background: rgba(17, 17, 17, 0.88);
-
-    border: 1px solid var(--border-color);
-    border-radius: 9px;
-
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: transparent;
+	border: none;
+	
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .developer-credit img {
@@ -51,26 +49,17 @@ h3 {
     height: 42px;
 
     object-fit: contain;
-    background: white;
-    border-radius: 6px;
+    background: transparent;
 }
 
 .developer-credit div {
     display: flex;
     flex-direction: column;
     line-height: 1.2;
+
+	text-shadow: 0 1px 5px #000000;
 }
 
-.developer-credit span {
-    color: #aaaaaa;
-    font-size: 11px;
-}
-
-.developer-credit strong {
-    font-family: "Inter", Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-}
 /* general interface text */
 body,
 button {
