@@ -312,7 +312,7 @@ button:focus-visible {
 
 .bloch-pair {
     display: flex;
-    flex-wrap: column;
+    flex-direction: column;
     flex-wrap: nowrap;
 	
     align-items: center;
@@ -389,8 +389,9 @@ progress {
     flex-direction: column;
 	justify-content: space-between;
     align-items: center;
-  
-    min-width: 720px;
+
+	width: 100%;
+    min-width: 0;
     margin-top: 0;
 	
 	animation-delay: 0.25s;
