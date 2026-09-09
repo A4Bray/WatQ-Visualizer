@@ -312,12 +312,13 @@ button:focus-visible {
 
 .bloch-pair {
     display: flex;
-    flex-direction: column;
+    flex-wrap: column;
     flex-wrap: nowrap;
 	
     align-items: center;
 	justify-content: space-between;
 
+	min-height: 720px;
 	gap: 12px;
 	padding: 12px 14px;
 	animation-delay: 0.18s;
@@ -389,7 +390,7 @@ progress {
 	justify-content: space-between;
     align-items: center;
   
-    min-width: 0;
+    min-width: 720px;
     margin-top: 0;
 	
 	animation-delay: 0.25s;
@@ -522,14 +523,9 @@ body {
 /* Mobile fitting */
 @media (max-width: 850px) {
 	.single-qubit-layout,
+	.two-qubit-layout {
 		flex-direction: column;
 	}
-
-    .two-qubit-layout,
-    .two-qubit-visuals {
-        display: flex;
-        flex-direction: column;
-    }
 
 	.single-qubit-controls,
     .single-qubit-visual,
@@ -539,95 +535,58 @@ body {
         flex-basis: auto;
     }
 
-   .bloch-pair,
-    .q-sphere-card {
-        width: 100%;
-        height: auto;
-        min-height: 0;
-    }
-
 	.single-probability-row,
     .probability-row {
         grid-template-columns: 100px minmax(120px, 220px);
     }
 }
 
-/* desktop fitting */
-@media(min-width: 851px) {
-    #twoQubitPage .two-qubit-layout {
-     	display: grid;
-		grid-template-columns: 360px minmax(0, 1fr);
-		gap: 16px;
-		align-items: start;
-    }
-
-	#twoQubitPage .two-qubit-sidebar {
-		gap: 10px;
-		min-width: 0;
-	}
-	
-    #twoQubitPage .two-qubit-visuals {
-        display: grid;
-        grid-template-columns:
-            minmax(280px, 0.75fr)
-            minmax(430px, 1.25fr);
-
-        gap: 16px;
-        min-width: 0;
-        align-items: start;
-    }
-
+/* compact two-qubit layout on shorter desktop screens */
+@media (min-width: 851px) {
     #twoQubitPage .bloch-pair {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
 
-        justify-content: space-between;
-        align-items: center;
+        justify-items: center;
+        align-content: space-between;
 
-        height: 650px;
+        height: clamp(
+            600px,
+            calc(100vh - 155px),
+            700px
+        );
+
         min-height: 0;
-        padding: 10px 12px;
-    }
-
-    #twoQubitPage .bloch-card {
-        width: 100%;
-        text-align: center;
-    }
-
-    #twoQubitPage .bloch-card h3,
-    #twoQubitPage .bloch-card p {
-        margin: 4px 0;
+        padding: 12px 14px;
     }
 
     #twoQubitPage #qubit0Bloch canvas,
     #twoQubitPage #qubit1Bloch canvas {
-        width: 190px;
-        height: 190px;
+        width: clamp(150px, 18vh, 190px);
+        height: clamp(150px, 18vh, 190px);
     }
 
     #twoQubitPage .entanglement-connection {
-        min-width: 0;
         min-height: 70px;
     }
 
     #twoQubitPage .entanglement-track {
-        height: 42px;
+        height: 45px;
     }
 
     #twoQubitPage .q-sphere-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
+        height: clamp(
+            600px,
+            calc(100vh - 155px),
+            700px
+        );
 
-        height: 650px;
         min-height: 0;
-        margin-top: 0;
     }
 
     #twoQubitPage #qSphere canvas {
-        width: min(430px, 100%);
+        width: min(420px, 100%);
         height: auto;
     }
 }
