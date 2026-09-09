@@ -25,6 +25,7 @@ h3 {
 }
 
 .developer-credit {
+	position: fixed;
     left: 12px;
     bottom: 8px;
     z-index: 10;
@@ -517,7 +518,7 @@ body {
 	}
 }
 
-	
+/* Mobile fitting */
 @media (max-width: 850px) {
 	.single-qubit-layout,
 	.two-qubit-layout {
@@ -539,87 +540,71 @@ body {
 }
 
 /* compact two-qubit layout on shorter desktop screens */
-@media (min-width: 851px) and (max-height: 950px) {
-	#twoQubitPage {
-		padding: 14px 20px;
-	}
-
-	#twoQubitPage > h1 {
-		margin: 8px 0 12px;
-	}
-
-	.two-qubit-layout {
-		display: grid;
-		grid-template-columns: 360px minmax(0, 1fr);
-		gap: 18px;
-		align-items: start;
-	}
-
-	.two-qubit-sidebar {
-		gap: 12px;
-	}
-	
-	.two-qubit-visuals {
-		display: grid;
-		grid-template-columns: 
-			minmax(590px, 2fr)
-			minmax(250px, 1fr);
-		gap: 14px;
-		align-items: start;
-	}
-
-	#twoQubitPage .widget {
-		padding: 12px 14px;
-	}
-
-	#twoQubitPage h3 {
-		margin: 10px 0 7px;
-	}
-
-	#twoQubitPage p {
-		margin: 7px 0;
-	}
-
-	.probability-row {
-		margin: 6px 0;
-	}
-
-	.bloch-pair {
-		min-height: 680px;
-		padding: 10px 14px;
-	}
-	
-	.bloch-card h3 {
-        margin: 4px 0 6px;
+@media (min-width: 851px) {
+    #twoQubitPage {
+        overflow-x: hidden;
     }
 
-    .bloch-card p {
-        margin: 6px 0 2px;
+    #twoQubitPage .two-qubit-layout {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
     }
 
-	.entanglement-connection {
-		min-width: 90px;
-	}
-	
-	.q-sphere-card {
-		min-height: 720px
-		margin-top: 0;
-		padding: 10px 14px;
-	}
-	
-	.q-sphere-card h3,
-	.q-sphere-card p {
-   		margin: 6px 0;
-	}
-	
-	#qubit0Bloch canvas,
-	#qubit1Bloch canvas {
-		width: 220px;
-		height: 220px;
-	}
+    #twoQubitPage .two-qubit-visuals {
+        display: grid;
+        grid-template-columns:
+            minmax(300px, 0.8fr)
+            minmax(430px, 1.2fr);
 
-	#qSphere canvas {
-		width: min(500px, 100%);
-		height: auto;
-	}
+        gap: 18px;
+        min-width: 0;
+        align-items: stretch;
+    }
+
+    #twoQubitPage .bloch-pair {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto 1fr;
+
+        justify-items: center;
+        align-items: center;
+
+        min-width: 0;
+        min-height: 720px;
+        padding: 14px;
+    }
+
+    #twoQubitPage .bloch-card:first-child {
+        align-self: start;
+    }
+
+    #twoQubitPage .bloch-card:last-child {
+        align-self: end;
+    }
+
+    #twoQubitPage .entanglement-connection {
+        min-width: 0;
+        min-height: 90px;
+    }
+
+    #qubit0Bloch canvas,
+    #qubit1Bloch canvas {
+        width: 210px;
+        height: 210px;
+    }
+
+    #twoQubitPage .q-sphere-card {
+        min-width: 0;
+        min-height: 720px;
+        margin-top: 0;
+    }
+
+    #qSphere canvas {
+        width: 100%;
+        max-width: 460px;
+        height: auto;
+    }
 }
+	
