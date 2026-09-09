@@ -26,8 +26,8 @@ h3 {
 
 .developer-credit {
     position: fixed;
-    left: 18px;
-    bottom: 18px;
+    left: 12px;
+    bottom: 8px;
     z-index: 10;
 
     display: flex;
@@ -60,6 +60,14 @@ h3 {
 	text-shadow: 0 1px 5px #000000;
 }
 
+.developer-credit span {
+    font-size: 9px;
+}
+
+.developer-credit strong {
+    font-size: 11px;
+    font-weight: 600;
+}
 /* general interface text */
 body,
 button {
