@@ -25,7 +25,7 @@ I built this project to make some of the mathematics behind quantum computing ea
 - Individual X and Hadamard gates for each qubit
 - CNOT operation
 - Bell-state preparation
-- Joint probabilities for \|00âŸ©, \|01âŸ©, \|10âŸ©, and \|11âŸ©
+- Joint probabilities for 01, 10, 00, 11
 - Reduced Bloch spheres for both qubits
 - Correlation and concurrence calculations
 - Visual indication of entanglement strength
